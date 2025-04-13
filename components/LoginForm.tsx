@@ -60,9 +60,9 @@ export function LoginForm({
         </button>
 
         <div className="flex items-center my-6">
-          <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
+          <div className="grow border-t border-gray-300 dark:border-gray-700"></div>
           <span className="mx-4 text-sm text-gray-500 dark:text-gray-400">OR</span>
-          <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
+          <div className="grow border-t border-gray-300 dark:border-gray-700"></div>
         </div>
       </div>
 
@@ -73,20 +73,20 @@ export function LoginForm({
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="rounded-md shadow-sm space-y-4">
+        <div className="rounded-md shadow-xs space-y-4">
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email address"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition-all"
           />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition-all"
           />
         </div>
 
@@ -108,7 +108,7 @@ export function LoginForm({
         <button 
           type="submit" 
           disabled={isLoading}
-          className="w-full py-2.5 px-4 border border-transparent rounded-full shadow-sm text-white bg-primary hover:bg-primary-dark disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
+          className="w-full py-2.5 px-4 border border-transparent rounded-full shadow-xs text-white bg-primary hover:bg-primary-dark disabled:opacity-50 focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
         >
           {isSignUp ? 'Sign up' : 'Sign in'} with Email
         </button>

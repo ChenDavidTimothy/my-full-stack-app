@@ -239,7 +239,7 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white dark:bg-neutral-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700"
+              className="bg-white dark:bg-neutral-dark rounded-xl p-6 shadow-xs border border-slate-200 dark:border-slate-700"
             >
               <div className="flex items-center justify-between">
                 <div className="p-2 bg-primary/10 dark:bg-primary-light/10 rounded-lg">
@@ -264,7 +264,7 @@ export default function Dashboard() {
         {/* Activity Feed */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Chart Section */}
-          <div className="lg:col-span-2 bg-white dark:bg-neutral-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+          <div className="lg:col-span-2 bg-white dark:bg-neutral-dark rounded-xl p-6 shadow-xs border border-slate-200 dark:border-slate-700">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                 Analytics Overview
@@ -279,7 +279,7 @@ export default function Dashboard() {
           </div>
 
           {/* Recent Activity */}
-          <div className="bg-white dark:bg-neutral-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+          <div className="bg-white dark:bg-neutral-dark rounded-xl p-6 shadow-xs border border-slate-200 dark:border-slate-700">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-6">
               Recent Activity
             </h3>

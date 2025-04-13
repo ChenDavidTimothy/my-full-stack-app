@@ -22,7 +22,7 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
       title: "Start with a Template",
       description: (
         <div className="flex flex-col gap-2">
-          <p>Click  <button className="px-2 py-1 text-xs rounded bg-primary hover:bg-primary-darker text-white w-fit">Use Template</button> to import one of our pre-made recipes into your collection.</p>
+          <p>Click  <button className="px-2 py-1 text-xs rounded-sm bg-primary hover:bg-primary-darker text-white w-fit">Use Template</button> to import one of our pre-made recipes into your collection.</p>
           
         </div>
       ),

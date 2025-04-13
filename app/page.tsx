@@ -197,7 +197,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120] relative">
       {/* Enhanced Sticky Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-neutral-darker/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700">
+      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-neutral-darker/80 backdrop-blur-xs border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 overflow-x-auto hide-scrollbar">
             {workflowSections.map((section, index) => (
@@ -237,7 +237,7 @@ export default function LandingPage() {
 
       {/* Hero Section - Now acts as Overview */}
       <div id="overview" className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-light/10 to-accent-light/10" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary-light/10 to-accent-light/10" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative pt-20 pb-16 sm:pb-24">
@@ -301,7 +301,7 @@ export const DevLife = () => {
                   <motion.div
                     key={step.title}
                     initial={{ opacity: 1, y: 0 }}
-                    className="relative p-4 bg-white/5 dark:bg-neutral-dark border border-slate-200 dark:border-slate-700/50 backdrop-blur-sm rounded-xl shadow-lg hover:border-primary/50 dark:hover:border-primary/50 transition-colors"
+                    className="relative p-4 bg-white/5 dark:bg-neutral-dark border border-slate-200 dark:border-slate-700/50 backdrop-blur-xs rounded-xl shadow-lg hover:border-primary/50 dark:hover:border-primary/50 transition-colors"
                   >
                     <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary dark:bg-primary-light text-white rounded-full flex items-center justify-center font-semibold">
                       {index + 1}
@@ -349,7 +349,7 @@ export const DevLife = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+                    className="bg-white/5 backdrop-blur-xs rounded-xl p-6 border border-white/10"
                   >
                     <div className="text-3xl font-bold text-primary mb-2">
                       {metric.value}
@@ -374,7 +374,7 @@ export const DevLife = () => {
         whileInView={{ opacity: 1 }}
         className="relative py-20"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-light/10 to-accent-light/10" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary-light/10 to-accent-light/10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative bg-white dark:bg-neutral-dark rounded-xl shadow-xl p-12 border border-slate-200 dark:border-slate-700">
             <div className="text-center">

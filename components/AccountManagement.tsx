@@ -57,7 +57,7 @@ export function AccountManagement() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8">
       <h2 className="text-xl font-semibold mb-4">Account Management</h2>
       
       {/* User Information */}

@@ -152,7 +152,7 @@ export default function UpdatePasswordPage() {
                   required
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-gray-800"
+                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-gray-100 focus:outline-hidden focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-gray-800"
                   placeholder="New Password"
                   minLength={6}
                   disabled={!!error}
@@ -169,7 +169,7 @@ export default function UpdatePasswordPage() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-gray-800"
+                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-gray-100 focus:outline-hidden focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-gray-800"
                   placeholder="Confirm Password"
                   minLength={6}
                   disabled={!!error}
@@ -179,7 +179,7 @@ export default function UpdatePasswordPage() {
             <button
               type="submit"
               disabled={isLoading || !!error}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-xs text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
             >
               {isLoading ? (
                 <div className="flex items-center">

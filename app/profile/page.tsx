@@ -168,7 +168,7 @@ function ProfileContent() {
         <AccountManagement />
 
         {/* Subscription Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">Subscription Status</h2>
           {error ? (
             <div className="text-red-500 dark:text-red-400">{error}</div>
