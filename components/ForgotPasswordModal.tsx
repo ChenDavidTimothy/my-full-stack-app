@@ -16,6 +16,9 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
   const [isLoading, setIsLoading] = useState(false);
 
   const handleResetPassword = async () => {
+    // Don't proceed if already loading
+    if (isLoading) return;
+    
     setIsLoading(true);
     setError('');
 
@@ -79,7 +82,7 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
               </button>
               <button
                 onClick={handleResetPassword}
-                disabled={isLoading}
+                disabled={isLoading || !email}
                 className="py-2 px-4 bg-primary-darker text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
               >
                 {isLoading ? 'Sending...' : 'Send Reset Link'}
@@ -90,4 +93,4 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
       </div>
     </div>
   );
-} 
+}

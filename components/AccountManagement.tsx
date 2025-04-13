@@ -8,6 +8,8 @@ export function AccountManagement() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  // Add state for tracking password reset button
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
 
   // Check if user signed in with OAuth
   const isOAuthUser = user?.app_metadata?.provider === 'google';
@@ -38,6 +40,22 @@ export function AccountManagement() {
     }
   };
 
+  // Add a new handler for password reset with debounce protection
+  const handleResetPassword = () => {
+    if (isResettingPassword || !user?.email) return;
+    
+    // Set flag to prevent multiple clicks
+    setIsResettingPassword(true);
+    
+    // Navigate to reset page
+    router.push(`/reset-password?email=${encodeURIComponent(user.email)}`);
+    
+    // Reset the flag after a delay (prevents rapid clicks)
+    setTimeout(() => {
+      setIsResettingPassword(false);
+    }, 3000);
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
       <h2 className="text-xl font-semibold mb-4">Account Management</h2>
@@ -52,10 +70,11 @@ export function AccountManagement() {
       <div className="">
         {!isOAuthUser && (
           <button
-            onClick={() => router.push(`/reset-password?email=${encodeURIComponent(user?.email || '')}`)}
-            className="block w-full text-left px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
+            onClick={handleResetPassword}
+            disabled={isResettingPassword}
+            className="block w-full text-left px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50"
           >
-            Reset Password
+            {isResettingPassword ? 'Processing Request...' : 'Reset Password'}
           </button>
         )}
 
@@ -98,4 +117,4 @@ export function AccountManagement() {
       )}
     </div>
   );
-} 
+}
