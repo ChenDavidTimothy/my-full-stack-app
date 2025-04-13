@@ -24,7 +24,7 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/update-password#`,
+        redirectTo: `${window.location.origin}/update-password`,
       });
       if (error) throw error;
       setSuccess(true);
