@@ -89,11 +89,11 @@ export default function UpdatePasswordPage() {
   // Loading state during initial session check
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-slate-950 dark:bg-slate-950">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-app">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-white">Update Password</h2>
-            <p className="mt-2 text-gray-400">
+            <h2 className="text-3xl font-bold text-app">Update Password</h2>
+            <p className="mt-2 text-app-muted">
               Verifying your recovery session...
             </p>
             <div className="mt-4 flex justify-center">
@@ -107,22 +107,22 @@ export default function UpdatePasswordPage() {
 
   // Main form UI
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-slate-950 dark:bg-slate-950">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-app">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-white">Update Password</h2>
-          <p className="mt-2 text-gray-400">
+          <h2 className="text-3xl font-bold text-app">Update Password</h2>
+          <p className="mt-2 text-app-muted">
             Please enter your new password
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-900/30 text-red-500 p-4 rounded-lg">
+          <div className="bg-danger/10 text-danger p-4 rounded-lg">
             {error}
             <div className="mt-2">
               <button
                 onClick={() => router.push('/reset-password?email=')}
-                className="text-red-400 underline hover:text-red-300"
+                className="text-danger-light underline hover:text-danger"
               >
                 Request a new reset link
               </button>
@@ -131,11 +131,11 @@ export default function UpdatePasswordPage() {
         )}
 
         {success ? (
-          <div className="bg-green-900/30 text-green-500 p-4 rounded-lg">
+          <div className="bg-success/10 text-success p-4 rounded-lg">
             <p>Password updated successfully!</p>
             <p className="mt-2">Redirecting to login page...</p>
             <div className="mt-4 flex justify-center">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-success"></div>
             </div>
           </div>
         ) : (
@@ -152,7 +152,7 @@ export default function UpdatePasswordPage() {
                   required
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-gray-100 focus:outline-hidden focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-gray-800"
+                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-app placeholder-app-muted text-app focus:outline-hidden focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-app-muted"
                   placeholder="New Password"
                   minLength={6}
                   disabled={!!error}
@@ -169,7 +169,7 @@ export default function UpdatePasswordPage() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-gray-100 focus:outline-hidden focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-gray-800"
+                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-app placeholder-app-muted text-app focus:outline-hidden focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-app-muted"
                   placeholder="Confirm Password"
                   minLength={6}
                   disabled={!!error}

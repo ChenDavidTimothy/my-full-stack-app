@@ -6,8 +6,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import TopBar from '../components/TopBar';
 import ProtectedRoute from '@/contexts/ProtectedRoute';
 import { Analytics } from "@vercel/analytics/react"
-// import { PostHogProvider } from '@/contexts/PostHogContext';
-// import { PostHogErrorBoundary } from '@/components/PostHogErrorBoundary';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 const geist = Geist({ subsets: ['latin'] });
 
@@ -18,18 +17,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={geist.className}>
+      <body className={`${geist.className} bg-app text-app`}>
         <Analytics mode="auto" />
-        {/* <PostHogErrorBoundary>
-          <PostHogProvider> */}
-            <AuthProvider>   
-                <ProtectedRoute>
-                  <TopBar />    
-                  <main>{children}</main>
-                </ProtectedRoute>
-            </AuthProvider>
-          {/* </PostHogProvider>
-        </PostHogErrorBoundary> */}
+        <ThemeProvider>
+          <AuthProvider>   
+            <ProtectedRoute>
+              <TopBar />    
+              <main>{children}</main>
+            </ProtectedRoute>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

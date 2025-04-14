@@ -134,9 +134,9 @@ function ProfileContent() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950 dark:bg-slate-950">
-        <div className="text-white">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mb-4 mx-auto"></div>
+      <div className="min-h-screen flex items-center justify-center bg-app">
+        <div className="text-app">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-app mb-4 mx-auto"></div>
           <p>Redirecting to login...</p>
         </div>
       </div>
@@ -146,29 +146,28 @@ function ProfileContent() {
   return (
     <ErrorBoundary
       fallback={
-        <div className="p-4 text-red-500">
+        <div className="p-4 text-danger">
           Failed to load subscription details. Please try refreshing.
         </div>
       }
     >
-      {/* Change the outer container to use a consistent dark background */}
-      <div className="min-h-screen bg-slate-950 dark:bg-slate-950">
+      <div className="min-h-screen bg-app">
         <div className="w-full max-w-4xl mx-auto p-8">
           {paymentStatus === 'success' && (
-            <div className="mb-8 p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
-              <p className="text-green-600 dark:text-green-400">
+            <div className="mb-8 p-4 bg-success/10 rounded-lg">
+              <p className="text-success">
                 🎉 Thank you for your subscription! Your payment was successful.
               </p>
             </div>
           )}
           
-          <h1 className="text-3xl font-bold mb-8 text-white">Profile</h1>
+          <h1 className="text-3xl font-bold mb-8 text-app">Profile</h1>
           
-          <div className="bg-slate-800 dark:bg-slate-800 rounded-lg shadow-sm p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4 text-white">Account Management</h2>
+          <div className="bg-surface rounded-lg shadow-xs p-6 mb-8">
+            <h2 className="text-xl font-semibold mb-4 text-app">Account Management</h2>
             
             {/* User Information */}
-            <div className="mb-6 space-y-2 text-slate-300">
+            <div className="mb-6 space-y-2 text-app-muted">
               <p><span className="font-medium">Email:</span> {user?.email}</p>
               <p><span className="font-medium">Last Sign In:</span> {new Date(user?.last_sign_in_at || '').toLocaleString()}</p>
               <p><span className="font-medium">Account Type:</span> {user?.app_metadata?.provider === 'google' ? 'Google Account' : 'Email Account'}</p>
@@ -178,7 +177,7 @@ function ProfileContent() {
               {user?.app_metadata?.provider !== 'google' && (
                 <button
                   onClick={() => router.push(`/reset-password?email=${encodeURIComponent(user?.email || '')}`)}
-                  className="block w-full text-left px-4 py-2 bg-slate-700 dark:bg-slate-700 rounded-lg hover:bg-slate-600 dark:hover:bg-slate-600 text-white"
+                  className="block w-full text-left px-4 py-2 bg-app-muted rounded-lg hover:bg-app-subtle text-app"
                 >
                   Reset Password
                 </button>
@@ -187,20 +186,20 @@ function ProfileContent() {
           </div>
 
           {/* Subscription Section */}
-          <div className="bg-slate-800 dark:bg-slate-800 rounded-lg shadow-sm p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4 text-white">Subscription Status</h2>
+          <div className="bg-surface rounded-lg shadow-xs p-6 mb-8">
+            <h2 className="text-xl font-semibold mb-4 text-app">Subscription Status</h2>
             {error ? (
-              <div className="text-red-500 dark:text-red-400">{error}</div>
+              <div className="text-danger">{error}</div>
             ) : isLoadingSubscription ? (
-              <div className="flex items-center space-x-2 text-white">
+              <div className="flex items-center space-x-2 text-app">
                 <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                 <span>Loading subscription details...</span>
               </div>
             ) : subscription ? (
-              <div className="space-y-2 text-slate-300">
+              <div className="space-y-2 text-app-muted">
                 <p>
                   <span className="font-medium">Status:</span>{' '}
-                  <span className={`${subscription.status === 'active' ? 'text-green-400' : 'text-yellow-400'}`}>
+                  <span className={`${subscription.status === 'active' ? 'text-success' : 'text-warning'}`}>
                     {subscription.status.charAt(0).toUpperCase() + subscription.status.slice(1)}
                   </span>
                 </p>
@@ -216,13 +215,13 @@ function ProfileContent() {
                     </Link>
                   </div>
                 ) : subscription.cancel_at_period_end ? (
-                  <div className="mt-4 p-4 bg-yellow-900/30 text-yellow-400 rounded-lg">
+                  <div className="mt-4 p-4 bg-warning/10 text-warning rounded-lg">
                     <p className="mb-2">
                       Your subscription will end on {new Date(subscription.current_period_end).toLocaleDateString()}
                     </p>
                     <button
                       onClick={handleReactivateSubscription}
-                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+                      className="bg-success hover:bg-success-light text-white px-4 py-2 rounded-lg"
                     >
                       Resume Subscription
                     </button>
@@ -230,17 +229,17 @@ function ProfileContent() {
                 ) : (subscription.status === 'active' || subscription.status === 'trialing') ? (
                   <button
                     onClick={() => setIsCancelModalOpen(true)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg mt-4"
+                    className="bg-danger hover:bg-danger-light text-white px-4 py-2 rounded-lg mt-4"
                   >
                     Cancel Subscription
                   </button>
                 ) : null}
               </div>
             ) : (
-              <div className="mt-4 space-y-4 text-white">
+              <div className="mt-4 space-y-4 text-app">
                 {isInTrial ? (
                   <>
-                    <p className="text-yellow-400">
+                    <p className="text-warning">
                       You are currently in your 48-hour trial period. Your trial will end on {' '}
                       {trialEndTime ? new Date(trialEndTime).toLocaleDateString() : 'soon'}.
                     </p>
@@ -248,7 +247,7 @@ function ProfileContent() {
                   </>
                 ) : trialEndTime ? (
                   <>
-                    <div className="p-4 bg-red-900/30 text-red-400 rounded-lg mb-4">
+                    <div className="p-4 bg-danger/10 text-danger rounded-lg mb-4">
                       <p>
                         Your trial period ended on {new Date(trialEndTime).toLocaleDateString()}.
                       </p>
@@ -270,22 +269,22 @@ function ProfileContent() {
           {/* Cancel Confirmation Modal */}
           {isCancelModalOpen && (
             <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-              <div className="bg-slate-800 dark:bg-slate-800 rounded-lg p-6 max-w-md w-full">
-                <h3 className="text-xl font-semibold mb-4 text-white">Cancel Subscription?</h3>
-                <p className="text-slate-300 mb-6">
+              <div className="bg-surface rounded-lg p-6 max-w-md w-full">
+                <h3 className="text-xl font-semibold mb-4 text-app">Cancel Subscription?</h3>
+                <p className="text-app-muted mb-6">
                   You&apos;ll continue to have access until the end of your billing period on {new Date(subscription?.current_period_end || '').toLocaleDateString()}. No refunds are provided for cancellations.
                 </p>
                 <div className="flex gap-4 justify-end">
                   <button
                     onClick={() => setIsCancelModalOpen(false)}
-                    className="px-4 py-2 text-slate-300 hover:bg-slate-700 dark:hover:bg-slate-700 rounded-lg"
+                    className="px-4 py-2 text-app-muted hover:bg-app-muted rounded-lg"
                     disabled={isCancelling}
                   >
                     Keep Subscription
                   </button>
                   <button
                     onClick={handleCancelSubscription}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                    className="bg-danger hover:bg-danger-light text-white px-4 py-2 rounded-lg flex items-center gap-2"
                     disabled={isCancelling}
                   >
                     {isCancelling ? (

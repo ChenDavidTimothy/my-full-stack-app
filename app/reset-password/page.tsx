@@ -57,13 +57,13 @@ function ResetPasswordContent() {
 
   if (!email) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-slate-900">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-app">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-3xl font-bold text-app">
               Invalid Request
             </h2>
-            <p className="mt-2 text-slate-600 dark:text-slate-300">
+            <p className="mt-2 text-app-muted">
               No email address provided. Please try the reset password link again.
             </p>
           </div>
@@ -73,26 +73,26 @@ function ResetPasswordContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-slate-900">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-app">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+          <h2 className="text-3xl font-bold text-app">
             Reset Password
           </h2>
-          <p className="mt-2 text-slate-600 dark:text-slate-300">
+          <p className="mt-2 text-app-muted">
             Sending reset link to: <span className="font-medium">{email}</span>
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/30 text-red-500 p-4 rounded-lg">
+          <div className="bg-danger/10 text-danger p-4 rounded-lg">
             {error}
             <button
               onClick={() => {
                 hasAttemptedResetRef.current = true; // Set again before retry
                 handleResetPassword();
               }}
-              className="ml-2 underline hover:text-red-600"
+              className="ml-2 underline hover:text-danger-light"
             >
               Try again
             </button>
@@ -100,11 +100,11 @@ function ResetPasswordContent() {
         )}
 
         {success ? (
-          <div className="bg-green-50 dark:bg-green-900/30 text-green-500 p-4 rounded-lg">
+          <div className="bg-success/10 text-success p-4 rounded-lg">
             Reset link has been sent to your email address. Please check your inbox.
           </div>
         ) : (
-          <div className="text-center text-slate-600 dark:text-slate-300">
+          <div className="text-center text-app-muted">
             {isLoading ? 'Sending reset link...' : 'Processing your request...'}
           </div>
         )}

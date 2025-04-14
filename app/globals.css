@@ -1,47 +1,91 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
+/* Theme Variables */
 @theme {
+  /* Brand colors - consistent in both themes */
   --color-primary: #a78bfa;
+  --color-primary-lighter: #ddd6fe;
   --color-primary-light: #c4b5fd;
   --color-primary-dark: #8b5cf6;
-
-  --color-secondary: #38bdf8;
-  --color-secondary-light: #7dd3fc;
-  --color-secondary-dark: #0ea5e9;
   
-  --color-danger: #dc2626;
-  --color-danger-light: #f87171;
-  --color-danger-dark: #b91c1c;
-  
-  --color-neutral: #f8fafc;
-  --color-neutral-dark: #1e293b;
-  --color-neutral-darker: #0f172a;
-  
-  --color-text: #0f172a;
-  --color-text-light: #64748b;
-  --color-text-dark: #f8fafc;
-  
-  --color-surface-light: #ffffff;
-  --color-surface-dark: #1e293b;
-  
+  /* Accent colors */
   --color-accent: #38bdf8;
   --color-accent-light: #7dd3fc;
   --color-accent-dark: #0ea5e9;
   
+  /* Danger colors */
+  --color-danger: #dc2626;
+  --color-danger-light: #f87171;
+  --color-danger-dark: #b91c1c;
+  
+  /* Success colors */
+  --color-success: #22c55e;
+  --color-success-light: #4ade80;
+  
+  /* Warning colors */
+  --color-warning: #f59e0b;
+  --color-warning-light: #fbbf24;
+  
+  /* Shadows */
   --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-hover:
-    0 4px 6px -1px rgba(139, 92, 246, 0.1),
-    0 2px 4px -1px rgba(139, 92, 246, 0.06);
+  --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* This is the compatibility section for default border colors */
+/* Light mode variables (default) */
+:root {
+  /* Base colors */
+  --bg-base: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-muted: #f1f5f9;
+  
+  /* Text colors */
+  --text-base: #0f172a;
+  --text-muted: #64748b;
+  --text-subtle: #334155;
+  
+  /* Border colors */
+  --border-base: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  
+  /* Surface/Card colors */
+  --surface-base: #ffffff;
+  --surface-subtle: #f8fafc;
+}
+
+/* Dark mode variables */
+.dark {
+  /* Base colors */
+  --bg-base: #0f172a;
+  --bg-subtle: #1e293b;
+  --bg-muted: #334155;
+  
+  /* Text colors */
+  --text-base: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-subtle: #cbd5e1;
+  
+  /* Border colors */
+  --border-base: #334155;
+  --border-subtle: #1e293b;
+  
+  /* Surface/Card colors */
+  --surface-base: #1e293b;
+  --surface-subtle: #334155;
+}
+
+/* Default border color fix for Tailwind v4 */
 @layer base {
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: var(--border-base, currentcolor);
+  }
+  
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-base);
   }
 }
 
@@ -53,9 +97,50 @@
   }
 }
 
-/* Your custom utilities */
+/* Create simplified utility classes for our theme variables */
+@utility bg-app {
+  background-color: var(--bg-base);
+}
+
+@utility bg-app-subtle {
+  background-color: var(--bg-subtle);
+}
+
+@utility bg-app-muted {
+  background-color: var(--bg-muted);
+}
+
+@utility text-app {
+  color: var(--text-base);
+}
+
+@utility text-app-muted {
+  color: var(--text-muted);
+}
+
+@utility text-app-subtle {
+  color: var(--text-subtle);
+}
+
+@utility border-app {
+  border-color: var(--border-base);
+}
+
+@utility border-app-subtle {
+  border-color: var(--border-subtle);
+}
+
+@utility bg-surface {
+  background-color: var(--surface-base);
+}
+
+@utility bg-surface-subtle {
+  background-color: var(--surface-subtle);
+}
+
+/* Other existing utilities */
 @utility recipe-card {
-  @apply bg-white dark:bg-neutral-dark rounded-lg shadow-xs border border-primary/10 dark:border-primary/20 transition-all duration-300 hover:shadow-md;
+  @apply bg-surface rounded-lg shadow-xs border border-app-subtle transition-all duration-300 hover:shadow-md;
 }
 
 @utility cooking-button {
@@ -63,49 +148,7 @@
 }
 
 @utility accent-button {
-  @apply bg-secondary hover:bg-secondary-dark text-white rounded-lg transition-all duration-300;
-}
-
-/* Fix the body styles - move from @layer utilities to a base utility */
-@utility base-styles {
-  body {
-    color: var(--foreground);
-    background: var(--background);
-    font-family: 'Inter', sans-serif;
-  }
-}
-
-/* Custom background and text utilities for app-specific variables */
-@utility bg-app-background {
-  background-color: var(--background);
-}
-
-@utility text-app-foreground {
-  color: var(--foreground);
-}
-
-/* Define dark mode variants for these utilities */
-@media (prefers-color-scheme: dark) {
-  .dark\:bg-app-background {
-    background-color: var(--background);
-  }
-  
-  .dark\:text-app-foreground {
-    color: var(--foreground);
-  }
-}
-
-/* Keep these variables */
-:root {
-  --background: #f8f9fa;
-  --foreground: #2f3e46;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1a1b26;
-    --foreground: #f8f9fa;
-  }
+  @apply bg-accent hover:bg-accent-dark text-white rounded-lg transition-all duration-300;
 }
 
 /* Hide scrollbar styles */

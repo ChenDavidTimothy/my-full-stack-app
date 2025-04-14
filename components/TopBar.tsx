@@ -7,9 +7,8 @@ import Link from 'next/link';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useTrialStatus } from '@/hooks/useTrialStatus';
 import { BuyMeCoffee } from './BuyMeCoffee';
-// import { supabase } from '@/utils/supabase';
+import { ThemeToggle } from './ThemeToggle';
 
-// TopBar component handles user profile display and navigation
 export default function TopBar() {
   const { user, signOut } = useAuth();
   const router = useRouter();
@@ -18,11 +17,8 @@ export default function TopBar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { subscription, isLoading: isLoadingSubscription } = useSubscription();
   const { isInTrial } = useTrialStatus();
-
-  // State for tracking logout process
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // Handle click outside dropdown to close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -34,7 +30,6 @@ export default function TopBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Handle user logout with error handling and loading state
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
@@ -50,18 +45,20 @@ export default function TopBar() {
   };
 
   return (
-    <div className="w-full bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-700">
+    <div className="w-full bg-surface border-b border-app">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
-        <Link href="/" className="text-md sm:text-lg font-medium text-text dark:text-text-dark flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <Link href="/" className="text-md sm:text-lg font-medium text-app flex items-center gap-2 hover:opacity-80 transition-opacity">
           <span className="text-2xl">🎬</span>
           <span className="font-sans">NextTemp</span>
         </Link>
 
         <div className="flex items-center gap-4">
+          {/* Add the theme toggle */}
+          <ThemeToggle />
+          
           {!user ? (
             <>
               <BuyMeCoffee />
-              {/* Show login button for unauthenticated users */}
               <Link
                 href="/login"
                 className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-full transition-colors shadow-subtle hover:shadow-hover"
@@ -70,7 +67,6 @@ export default function TopBar() {
               </Link>
             </>
           ) : (
-            // Show subscription and profile for authenticated users
             <>
               {!isLoadingSubscription && (!isInTrial) && (
                 !subscription || 
@@ -100,18 +96,18 @@ export default function TopBar() {
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center gap-2 hover:bg-neutral-darker/10 dark:hover:bg-neutral-darker/50 px-3 py-2 rounded-full transition-colors"
+                  className="flex items-center gap-2 hover:bg-app-muted px-3 py-2 rounded-full transition-colors"
                 >
-                  <div className="w-8 h-8 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary dark:text-primary-light">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary">
                     {user.email?.[0].toUpperCase()}
                   </div>
                 </button>
                 
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-surface-light dark:bg-surface-dark rounded-lg shadow-hover py-1 z-60 border border-gray-200 dark:border-gray-700">
+                  <div className="absolute right-0 mt-2 w-48 bg-surface rounded-lg shadow-hover py-1 z-60 border border-app">
                     <Link
                       href="/profile"
-                      className="block px-4 py-2 text-sm text-text dark:text-text-dark hover:bg-neutral dark:hover:bg-neutral-dark"
+                      className="block px-4 py-2 text-sm text-app hover:bg-app-subtle"
                       onClick={(e) => {
                         e.preventDefault();
                         setIsDropdownOpen(false);
@@ -123,7 +119,7 @@ export default function TopBar() {
                     <button
                       onClick={handleLogout}
                       disabled={isLoggingOut}
-                      className="block w-full text-left px-4 py-2 text-sm text-danger hover:bg-neutral dark:hover:bg-neutral-dark disabled:opacity-50"
+                      className="block w-full text-left px-4 py-2 text-sm text-danger hover:bg-app-subtle disabled:opacity-50"
                     >
                       {isLoggingOut ? 'Signing Out...' : 'Sign Out'}
                     </button>
@@ -136,4 +132,4 @@ export default function TopBar() {
       </div>
     </div>
   );
-} 
+}

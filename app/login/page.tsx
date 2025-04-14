@@ -28,7 +28,6 @@ export default function LoginPage() {
         const { data, error } = await signUpWithEmail(email, password);
         if (error) throw error;
         
-        // Check if the user needs to verify their email
         if (data?.user && !data.user.email_confirmed_at) {
           router.replace(`/verify-email?email=${encodeURIComponent(email)}`);
           return;
@@ -48,15 +47,14 @@ export default function LoginPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950 dark:bg-slate-950">
-        <div className="text-white">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-app">
+        <div className="text-app">Loading...</div>
       </div>
     );
   }
 
-  // Key changes here: removed mt-20 and changed to flex flex-col, fixed bg color to slate-950
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950 dark:bg-slate-950 px-4 pt-16 pb-10">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-app px-4 pt-16 pb-10">
       <div className="w-full max-w-md">
         <LoginForm
           onSubmit={handleSubmit}

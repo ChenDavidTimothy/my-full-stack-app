@@ -16,7 +16,6 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
   const [isLoading, setIsLoading] = useState(false);
 
   const handleResetPassword = async () => {
-    // Don't proceed if already loading
     if (isLoading) return;
     
     setIsLoading(true);
@@ -39,12 +38,12 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-md w-full">
-        <h2 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">Reset Password</h2>
+      <div className="bg-surface rounded-lg p-6 max-w-md w-full">
+        <h2 className="text-xl font-semibold mb-4 text-app">Reset Password</h2>
         
         {success ? (
           <div className="space-y-4">
-            <p className="text-green-600 dark:text-green-400">
+            <p className="text-success">
               Reset link has been sent to your email address. Please check your inbox.
             </p>
             <button
@@ -57,10 +56,10 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
         ) : (
           <div className="space-y-4">
             {error && (
-              <p className="text-red-500 text-sm">{error}</p>
+              <p className="text-danger text-sm">{error}</p>
             )}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <label htmlFor="email" className="block text-sm font-medium text-app-subtle">
                 Email address
               </label>
               <input
@@ -68,7 +67,7 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-xs focus:border-primary focus:ring-primary dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                className="mt-1 block w-full rounded-md border-app shadow-xs focus:border-primary focus:ring-primary bg-surface text-app"
                 required
               />
             </div>
@@ -76,7 +75,7 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
               <button
                 type="button"
                 onClick={onClose}
-                className="py-2 px-4 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white"
+                className="py-2 px-4 text-app-muted hover:text-app"
               >
                 Cancel
               </button>

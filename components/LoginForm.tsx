@@ -28,18 +28,18 @@ export function LoginForm({
   };
 
   return (
-    <div className="w-full space-y-8 p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-subtle border border-gray-200 dark:border-gray-700">
+    <div className="w-full space-y-8 p-8 bg-surface rounded-2xl shadow-subtle border border-app">
       <div className="text-center">
         <div className="flex items-center justify-center gap-2 mb-6">
           <span className="text-3xl">🎬</span>
-          <h2 className="text-2xl font-medium text-slate-900 dark:text-white">
+          <h2 className="text-2xl font-medium text-app">
             NextTemp
           </h2>
         </div>
       </div>
 
       {error && (
-        <div className="text-red-500 text-center">
+        <div className="text-danger text-center">
           {error}
         </div>
       )}
@@ -47,7 +47,7 @@ export function LoginForm({
       <div className="mt-6 space-y-4">
         <button
           onClick={onGoogleSignIn}
-          className="w-full py-2.5 px-4 border border-gray-200 dark:border-gray-700 rounded-full shadow-subtle text-slate-900 dark:text-white bg-white dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all flex items-center justify-center"
+          className="w-full py-2.5 px-4 border border-app rounded-full shadow-subtle text-app bg-surface hover:bg-app-subtle transition-all flex items-center justify-center"
         >
           <Image
             src="/Google-Logo.png"
@@ -60,14 +60,14 @@ export function LoginForm({
         </button>
 
         <div className="flex items-center my-6">
-          <div className="grow border-t border-gray-300 dark:border-gray-700"></div>
-          <span className="mx-4 text-sm text-gray-500 dark:text-gray-400">OR</span>
-          <div className="grow border-t border-gray-300 dark:border-gray-700"></div>
+          <div className="grow border-t border-app"></div>
+          <span className="mx-4 text-sm text-app-muted">OR</span>
+          <div className="grow border-t border-app"></div>
         </div>
       </div>
 
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+        <h2 className="text-2xl font-bold text-app">
           {isSignUp ? 'Create an account' : 'Are you an Email User?'}
         </h2>
       </div>
@@ -79,14 +79,14 @@ export function LoginForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email address"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-slate-900 dark:text-white bg-white dark:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-app placeholder-app-muted text-app bg-surface focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition-all"
           />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-slate-900 dark:text-white bg-white dark:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-app placeholder-app-muted text-app bg-surface focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition-all"
           />
         </div>
 
