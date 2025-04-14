@@ -17,6 +17,8 @@
     "@types/stripe": "^8.0.416",
     "@vercel/analytics": "^1.4.1",
     "axios": "^1.7.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.4.3",
     "lodash": "^4.17.21",
     "lucide-react": "^0.475.0",
@@ -28,7 +30,9 @@
     "react-icons": "^5.4.0",
     "react-intersection-observer": "^9.15.1",
     "react-scroll": "^1.9.2",
-    "stripe": "^17.5.0"
+    "stripe": "^17.5.0",
+    "tailwind-merge": "^3.2.0",
+    "tw-animate-css": "^1.2.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
