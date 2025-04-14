@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface StripeBuyButtonProps {
   buyButtonId: string;
@@ -38,29 +39,27 @@ export function StripeBuyButton({ buyButtonId, publishableKey, className }: Stri
     };
   }, [router]);
 
-  useEffect(() => {
-    // Debug log to verify Stripe key
-    // console.log('Stripe public key:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.substring(0, 8) + '...');
-  }, []);
-
   if (!user) return null;
 
   return (
-    <div
-      className={className}
-      dangerouslySetInnerHTML={{
-        __html: `
-          <stripe-buy-button
-            buy-button-id="${buyButtonId}"
-            publishable-key="${publishableKey}"
-            client-reference-id="${user.id}"
-            customer-email="${user.email}"
-            success-url="${process.env.NEXT_PUBLIC_APP_URL}/profile?payment=success"
-            cancel-url="${process.env.NEXT_PUBLIC_APP_URL}/pay?canceled=true"
-          >
-          </stripe-buy-button>
-        `
-      }}
-    />
+    <Card className={`border-0 shadow-none ${className || ''}`}>
+      <CardContent className="p-0">
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `
+              <stripe-buy-button
+                buy-button-id="${buyButtonId}"
+                publishable-key="${publishableKey}"
+                client-reference-id="${user.id}"
+                customer-email="${user.email}"
+                success-url="${process.env.NEXT_PUBLIC_APP_URL}/profile?payment=success"
+                cancel-url="${process.env.NEXT_PUBLIC_APP_URL}/pay?canceled=true"
+              >
+              </stripe-buy-button>
+            `
+          }}
+        />
+      </CardContent>
+    </Card>
   );
-} 
+}

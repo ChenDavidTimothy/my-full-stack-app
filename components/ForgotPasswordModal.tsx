@@ -2,6 +2,19 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { CheckCircle2, AlertTriangle } from 'lucide-react';
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
@@ -34,62 +47,69 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-surface rounded-lg p-6 max-w-md w-full">
-        <h2 className="text-xl font-semibold mb-4 text-app">Reset Password</h2>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Reset Password</DialogTitle>
+          <DialogDescription>
+            Enter your email address and we'll send you a password reset link.
+          </DialogDescription>
+        </DialogHeader>
         
         {success ? (
           <div className="space-y-4">
-            <p className="text-success">
-              Reset link has been sent to your email address. Please check your inbox.
-            </p>
-            <button
+            <Alert>
+              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <AlertDescription className="text-green-500">
+                Reset link has been sent to your email address. Please check your inbox.
+              </AlertDescription>
+            </Alert>
+            <Button 
               onClick={onClose}
-              className="w-full py-2 px-4 btn-primary rounded-lg"
+              className="w-full"
             >
               Close
-            </button>
+            </Button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <>
             {error && (
-              <p className="text-danger text-sm">{error}</p>
+              <Alert variant="destructive">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
             )}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-app-subtle">
-                Email address
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 input-app block w-full"
-                required
-              />
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@example.com"
+                  required
+                />
+              </div>
             </div>
-            <div className="flex justify-end space-x-3">
-              <button
-                type="button"
+            <DialogFooter>
+              <Button
+                variant="outline"
                 onClick={onClose}
-                className="py-2 px-4 text-app-muted hover:text-app"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleResetPassword}
                 disabled={isLoading || !email}
-                className="py-2 px-4 btn-primary rounded-lg disabled:opacity-50"
               >
                 {isLoading ? 'Sending...' : 'Send Reset Link'}
-              </button>
-            </div>
-          </div>
+              </Button>
+            </DialogFooter>
+          </>
         )}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

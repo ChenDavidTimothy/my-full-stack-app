@@ -1,20 +1,23 @@
 import { Coffee } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 
 export function BuyMeCoffee() {
   const COFFEE_URL = 'https://buy.stripe.com/5kA176bA895ggog4gh';
 
   return (
-    <motion.a
-      href={COFFEE_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="hidden sm:flex items-center gap-2 px-4 py-2 btn-primary rounded-full text-sm font-medium shadow-subtle hover:shadow-hover"
+    <Button
+      variant="default"
+      className="hidden sm:flex"
+      asChild
     >
-      <Coffee className="h-4 w-4" />
-      <span>Buy Me a Coffee</span>
-    </motion.a>
+      <a 
+        href={COFFEE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Coffee className="mr-2 h-4 w-4" />
+        <span>Buy Me a Coffee</span>
+      </a>
+    </Button>
   );
 }
