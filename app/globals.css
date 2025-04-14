@@ -1,45 +1,40 @@
 @import 'tailwindcss';
 
-@custom-variant dark (@media (prefers-color-scheme: dark));
-
 @theme {
   --color-primary: #a78bfa;
   --color-primary-light: #c4b5fd;
   --color-primary-dark: #8b5cf6;
 
+  --color-secondary: #38bdf8;
+  --color-secondary-light: #7dd3fc;
+  --color-secondary-dark: #0ea5e9;
+  
   --color-danger: #dc2626;
   --color-danger-light: #f87171;
   --color-danger-dark: #b91c1c;
-
+  
   --color-neutral: #f8fafc;
   --color-neutral-dark: #1e293b;
   --color-neutral-darker: #0f172a;
-
+  
   --color-text: #0f172a;
   --color-text-light: #64748b;
   --color-text-dark: #f8fafc;
-
+  
   --color-surface-light: #ffffff;
   --color-surface-dark: #1e293b;
-
+  
   --color-accent: #38bdf8;
   --color-accent-light: #7dd3fc;
   --color-accent-dark: #0ea5e9;
-
+  
   --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   --shadow-hover:
     0 4px 6px -1px rgba(139, 92, 246, 0.1),
     0 2px 4px -1px rgba(139, 92, 246, 0.06);
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
+/* This is the compatibility section for default border colors */
 @layer base {
   *,
   ::after,
@@ -50,36 +45,47 @@
   }
 }
 
+/* Cursor pointer fix for buttons - recommended in the upgrade guide */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* Your custom utilities */
 @utility recipe-card {
   @apply bg-white dark:bg-neutral-dark rounded-lg shadow-xs border border-primary/10 dark:border-primary/20 transition-all duration-300 hover:shadow-md;
 }
+
 @utility cooking-button {
   @apply bg-primary hover:bg-primary-dark text-white rounded-lg transition-all duration-300 transform hover:scale-102 active:scale-98;
 }
+
 @utility accent-button {
   @apply bg-secondary hover:bg-secondary-dark text-white rounded-lg transition-all duration-300;
 }
 
-@layer utilities {
-  :root {
-    --background: #f8f9fa;
-    --foreground: #2f3e46;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: #1a1b26;
-      --foreground: #f8f9fa;
-    }
-  }
-
+/* Fix the body styles - move from @layer utilities to a base utility */
+@utility base-styles {
   body {
     color: var(--foreground);
     background: var(--background);
     font-family: 'Inter', sans-serif;
   }
+}
 
-  /* Add some cooking-themed utility classes */
+/* Keep these variables */
+:root {
+  --background: #f8f9fa;
+  --foreground: #2f3e46;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1a1b26;
+    --foreground: #f8f9fa;
+  }
 }
 
 /* Hide scrollbar styles */
