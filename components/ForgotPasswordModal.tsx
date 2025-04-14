@@ -45,7 +45,7 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
         <DialogHeader>
           <DialogTitle>Reset Password</DialogTitle>
           <DialogDescription>
-            We'll send a password reset link to your email address.
+            We&apos;ll send a password reset link to your email address.
           </DialogDescription>
         </DialogHeader>
         
