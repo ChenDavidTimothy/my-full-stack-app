@@ -28,9 +28,9 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   // Show loading state only if actually loading
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col space-y-4 items-center justify-center bg-slate-950 dark:bg-slate-950">
+      <div className="min-h-screen flex flex-col space-y-4 items-center justify-center bg-app">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        <div className="text-white">Loading at lightspeed ⚡️</div>
+        <div className="text-app">Loading at lightspeed ⚡️</div>
       </div>
     );
   }
