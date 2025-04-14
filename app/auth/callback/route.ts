@@ -11,8 +11,8 @@ export async function GET(request: Request) {
   if (code) {
     console.log('AuthCallback: Exchanging code for session');
     
-    // Create a cookie handler
-    const cookieStore = cookies();
+    // Create a cookie handler - await it since it returns a Promise
+    const cookieStore = await cookies();
     
     // Create a Supabase client directly
     const supabase = createClient(
