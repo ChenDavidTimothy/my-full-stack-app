@@ -48,18 +48,16 @@ export default function LoginPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-foreground">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 dark:bg-slate-950">
+        <div className="text-white">Loading...</div>
       </div>
     );
   }
 
+  // Key changes here: removed mt-20 and changed to flex flex-col, fixed bg color to slate-950
   return (
-    <div className="min-h-screen flex mt-20 justify-center bg-background px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950 dark:bg-slate-950 px-4 pt-16 pb-10">
       <div className="w-full max-w-md">
-        {/* <h1 className="text-4xl font-bold text-center mb-8 text-primary dark:text-white">
-          NextTemp
-        </h1> */}
         <LoginForm
           onSubmit={handleSubmit}
           onGoogleSignIn={signInWithGoogle}
@@ -69,4 +67,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-} 
+}

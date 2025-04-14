@@ -75,6 +75,26 @@
   }
 }
 
+/* Custom background and text utilities for app-specific variables */
+@utility bg-app-background {
+  background-color: var(--background);
+}
+
+@utility text-app-foreground {
+  color: var(--foreground);
+}
+
+/* Define dark mode variants for these utilities */
+@media (prefers-color-scheme: dark) {
+  .dark\:bg-app-background {
+    background-color: var(--background);
+  }
+  
+  .dark\:text-app-foreground {
+    color: var(--foreground);
+  }
+}
+
 /* Keep these variables */
 :root {
   --background: #f8f9fa;

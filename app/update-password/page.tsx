@@ -89,7 +89,7 @@ export default function UpdatePasswordPage() {
   // Loading state during initial session check
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0B1120]">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-slate-950 dark:bg-slate-950">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-white">Update Password</h2>
@@ -107,7 +107,7 @@ export default function UpdatePasswordPage() {
 
   // Main form UI
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#0B1120]">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-slate-950 dark:bg-slate-950">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-white">Update Password</h2>

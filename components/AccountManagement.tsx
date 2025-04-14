@@ -57,11 +57,11 @@ export function AccountManagement() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8">
-      <h2 className="text-xl font-semibold mb-4">Account Management</h2>
+    <div className="bg-slate-800 dark:bg-slate-800 rounded-lg shadow-sm p-6 mb-8">
+      <h2 className="text-xl font-semibold mb-4 text-white">Account Management</h2>
       
       {/* User Information */}
-      <div className="mb-6 space-y-2">
+      <div className="mb-6 space-y-2 text-slate-300">
         <p><span className="font-medium">Email:</span> {user?.email}</p>
         <p><span className="font-medium">Last Sign In:</span> {new Date(user?.last_sign_in_at || '').toLocaleString()}</p>
         <p><span className="font-medium">Account Type:</span> {isOAuthUser ? 'Google Account' : 'Email Account'}</p>
@@ -72,26 +72,28 @@ export function AccountManagement() {
           <button
             onClick={handleResetPassword}
             disabled={isResettingPassword}
-            className="block w-full text-left px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50"
+            className="block w-full text-left px-4 py-2 bg-slate-700 dark:bg-slate-700 rounded-lg hover:bg-slate-600 dark:hover:bg-slate-600 disabled:opacity-50 text-white"
           >
             {isResettingPassword ? 'Processing Request...' : 'Reset Password'}
           </button>
         )}
 
-        {/* <button
+        {/* Uncomment if you need the delete account button
+        <button
           onClick={() => setIsDeleteModalOpen(true)}
-          className="w-full text-left px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50"
+          className="w-full text-left px-4 py-2 bg-red-600/20 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-600/30 dark:hover:bg-red-900/50 mt-4"
         >
           Delete Account
-        </button> */}
+        </button>
+        */}
       </div>
 
       {/* Delete Account Modal */}
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-semibold mb-4">Delete Account?</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-800 dark:bg-slate-800 rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-xl font-semibold mb-4 text-white">Delete Account?</h3>
+            <p className="text-slate-300 mb-6">
               This action cannot be undone. All your data will be permanently deleted.
             </p>
             {error && (
@@ -100,14 +102,14 @@ export function AccountManagement() {
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 text-gray-600 dark:text-gray-300"
+                className="px-4 py-2 text-slate-300"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteAccount}
                 disabled={isLoading}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg disabled:opacity-50"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg disabled:opacity-50"
               >
                 {isLoading ? 'Deleting...' : 'Delete Account'}
               </button>

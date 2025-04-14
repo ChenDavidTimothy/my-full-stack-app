@@ -56,11 +56,11 @@ function ResetPasswordContent() {
 
   if (!email) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-slate-900">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold">Invalid Request</h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Invalid Request</h2>
+            <p className="mt-2 text-slate-600 dark:text-slate-300">
               No email address provided. Please try the reset password link again.
             </p>
           </div>
@@ -70,11 +70,11 @@ function ResetPasswordContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-slate-900">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold">Reset Password</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Reset Password</h2>
+          <p className="mt-2 text-slate-600 dark:text-slate-300">
             Sending reset link to: <span className="font-medium">{email}</span>
           </p>
         </div>
@@ -99,7 +99,7 @@ function ResetPasswordContent() {
             Reset link has been sent to your email address. Please check your inbox.
           </div>
         ) : (
-          <div className="text-center text-gray-600 dark:text-gray-300">
+          <div className="text-center text-slate-600 dark:text-slate-300">
             {isLoading ? 'Sending reset link...' : 'Processing your request...'}
           </div>
         )}
