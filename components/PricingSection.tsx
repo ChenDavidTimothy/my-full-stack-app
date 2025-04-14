@@ -1,16 +1,7 @@
+import { motion } from 'framer-motion';
+import { CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle2 } from 'lucide-react';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 const pricingTiers = [
   {
@@ -78,55 +69,51 @@ export function PricingSection() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-      {pricingTiers.map((tier) => (
-        <Card 
-          key={tier.id}
-          className={`relative cursor-pointer transition-all duration-300 overflow-hidden ${
-            selectedTier === tier.id 
-              ? 'ring-2 ring-primary/80 scale-105 bg-primary/5' 
-              : 'hover:ring-1 hover:ring-primary/50'
-          }`}
+      {pricingTiers.map((tier, i) => (
+        <motion.div
+          key={tier.name}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.1 }}
           onClick={() => handleTierClick(tier.id)}
+          className={`relative rounded-2xl p-8 shadow-lg cursor-pointer transition-all duration-300 ${
+            selectedTier === tier.id
+              ? 'bg-primary/5 ring-2 ring-primary transform scale-105'
+              : 'bg-surface ring-1 ring-app-subtle hover:ring-primary/50'
+          }`}
         >
           {tier.popular && (
-            <Badge 
-              className="absolute top-0 right-6 -translate-y-1/2" 
-              variant="default"
-            >
+            <span className="absolute top-0 right-6 -translate-y-1/2 px-3 py-1 text-sm bg-primary text-color-text-inverse rounded-full">
               Popular
-            </Badge>
+            </span>
           )}
-          
-          <CardHeader>
-            <CardTitle>{tier.name}</CardTitle>
-            <div className="mt-4 flex items-baseline">
-              <span className="text-4xl font-bold">{tier.price}</span>
-              <span className="ml-1 text-muted-foreground">{tier.interval}</span>
-            </div>
-            <CardDescription>{tier.description}</CardDescription>
-          </CardHeader>
-          
-          <CardContent>
-            <ul className="space-y-4">
-              {tier.features.map((feature) => (
-                <li key={feature} className="flex items-center">
-                  <CheckCircle2 className="h-5 w-5 text-primary mr-3" />
-                  <span className="text-muted-foreground">{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-          
-          <CardFooter>
-            <Button 
-              variant={selectedTier === tier.id ? "default" : "outline"}
-              className="w-full"
-              onClick={handleCTAClick}
-            >
-              {tier.cta}
-            </Button>
-          </CardFooter>
-        </Card>
+          <h3 className="text-xl font-semibold text-app">{tier.name}</h3>
+          <div className="mt-4 flex items-baseline">
+            <span className="text-4xl font-bold text-app">{tier.price}</span>
+            <span className="ml-1 text-app-muted">{tier.interval}</span>
+          </div>
+          <p className="mt-4 text-app-muted">{tier.description}</p>
+          <ul className="mt-8 space-y-4">
+            {tier.features.map((feature) => (
+              <li key={feature} className="flex items-center">
+                <CheckCircle2 className="h-5 w-5 text-primary mr-3" />
+                <span className="text-app-subtle">{feature}</span>
+              </li>
+            ))}
+          </ul>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleCTAClick}
+            className={`mt-8 w-full py-3 px-4 rounded-lg text-center font-medium transition-colors ${
+              selectedTier === tier.id
+                ? 'btn-primary'
+                : 'bg-app-subtle text-app hover:bg-app-muted'
+            }`}
+          >
+            {tier.cta}
+          </motion.button>
+        </motion.div>
       ))}
     </div>
   );

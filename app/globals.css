@@ -44,61 +44,29 @@
 
 /* Light mode variables (default) */
 :root {
-  /* Original Base colors */
+  /* Base colors */
   --bg-base: #ffffff;
   --bg-subtle: #f8fafc;
   --bg-muted: #f1f5f9;
   
-  /* Original Text colors */
+  /* Text colors */
   --text-base: #0f172a;
   --text-muted: #64748b;
   --text-subtle: #334155;
   
-  /* Original Border colors */
+  /* Border colors */
   --border-base: #e2e8f0;
   --border-subtle: #f1f5f9;
   --border-focus: #a78bfa;
   
-  /* Original Surface/Card colors */
+  /* Surface/Card colors */
   --surface-base: #ffffff;
   --surface-subtle: #f8fafc;
   
-  /* Original Form colors */
+  /* Form colors */
   --input-bg: #ffffff;
   --input-border: #e2e8f0;
   --input-focus: #a78bfa;
-  
-  /* shadcn/ui semantic color mapping - using your original colors */
-  --background: var(--bg-base);
-  --foreground: var(--text-base);
-  
-  --card: var(--surface-base);
-  --card-foreground: var(--text-base);
-  
-  --popover: var(--surface-base);
-  --popover-foreground: var(--text-base);
-  
-  --primary: var(--color-primary);
-  --primary-foreground: var(--color-text-inverse);
-  
-  --secondary: var(--bg-muted);
-  --secondary-foreground: var(--text-base);
-  
-  --muted: var(--bg-muted);
-  --muted-foreground: var(--text-muted);
-  
-  --accent: var(--color-accent);
-  --accent-foreground: var(--color-text-inverse);
-  
-  --destructive: var(--color-danger);
-  --destructive-foreground: var(--color-text-inverse);
-  
-  --border: var(--border-base);
-  --input: var(--input-bg);
-  --ring: var(--border-focus);
-  
-  /* Radius for shadcn/ui components */
-  --radius: 0.5rem;
   
   /* Add smooth transitions for theme switching */
   transition: background-color 0.2s, color 0.2s, border-color 0.2s;
@@ -106,58 +74,29 @@
 
 /* Dark mode variables */
 .dark {
-  /* Original Base colors */
+  /* Base colors */
   --bg-base: #0f172a;
   --bg-subtle: #1e293b;
   --bg-muted: #334155;
   
-  /* Original Text colors */
+  /* Text colors */
   --text-base: #f8fafc;
   --text-muted: #94a3b8;
   --text-subtle: #cbd5e1;
   
-  /* Original Border colors */
+  /* Border colors */
   --border-base: #334155;
   --border-subtle: #1e293b;
   --border-focus: #a78bfa;
   
-  /* Original Surface/Card colors */
+  /* Surface/Card colors */
   --surface-base: #1e293b;
   --surface-subtle: #334155;
   
-  /* Original Form colors */
+  /* Form colors */
   --input-bg: #0f172a;
   --input-border: #334155;
   --input-focus: #a78bfa;
-  
-  /* shadcn/ui semantic color mapping for dark mode */
-  --background: var(--bg-base);
-  --foreground: var(--text-base);
-  
-  --card: var(--surface-base);
-  --card-foreground: var(--text-base);
-  
-  --popover: var(--surface-base);
-  --popover-foreground: var(--text-base);
-  
-  --primary: var(--color-primary);
-  --primary-foreground: var(--color-text-inverse);
-  
-  --secondary: var(--bg-muted);
-  --secondary-foreground: var(--text-subtle);
-  
-  --muted: var(--bg-muted);
-  --muted-foreground: var(--text-muted);
-  
-  --accent: var(--color-accent);
-  --accent-foreground: var(--color-text-inverse);
-  
-  --destructive: var(--color-danger);
-  --destructive-foreground: var(--color-text-inverse);
-  
-  --border: var(--border-base);
-  --input: var(--input-bg);
-  --ring: var(--border-focus);
   
   /* Match transition duration from light mode */
   transition: background-color 0.2s, color 0.2s, border-color 0.2s;
@@ -235,7 +174,7 @@
   background-color: var(--surface-subtle);
 }
 
-/* Form utilities */
+/* Form utilities - Fixed to avoid using pseudo-classes in utility names */
 @utility input-app {
   background-color: var(--input-bg);
   border-color: var(--input-border);

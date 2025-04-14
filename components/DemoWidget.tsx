@@ -1,40 +1,32 @@
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle 
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-
 export const DemoWidget = () => {
   return (
-    <Card className="shadow-xl">
-      <CardHeader>
-        <CardTitle>Try It Out</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
+    <div className="bg-white rounded-xl shadow-xl p-6">
+      <h3 className="text-xl font-semibold mb-4">Try It Out</h3>
+      <div className="space-y-4">
         <div className="flex gap-4">
-          <div className="flex-1 space-y-2">
-            <Label htmlFor="feedback">Sample Feedback</Label>
-            <Textarea 
-              id="feedback"
-              className="min-h-24"
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Sample Feedback
+            </label>
+            <textarea 
+              className="w-full p-3 border border-slate-200 rounded-lg"
+              rows={3}
               placeholder="Paste user feedback here..."
             />
           </div>
-          <div className="flex-1 space-y-2">
-            <Label htmlFor="code">Generated Code</Label>
-            <div className="p-3 bg-slate-900 text-slate-100 rounded-lg text-sm h-24 overflow-auto">
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Generated Code
+            </label>
+            <pre className="p-3 bg-slate-900 text-slate-100 rounded-lg text-sm">
               <code>{/* Code will appear here... */}</code>
-            </div>
+            </pre>
           </div>
         </div>
-        <Button className="w-full">
+        <button className="w-full py-2 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors">
           Generate Code
-        </Button>
-      </CardContent>
-    </Card>
+        </button>
+      </div>
+    </div>
   );
-};
+}; 

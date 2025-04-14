@@ -1,8 +1,4 @@
 import { ReactNode } from 'react';
-import { 
-  Card, 
-  CardContent
-} from '@/components/ui/card';
 
 interface MetricCardProps {
   number: string;
@@ -11,13 +7,15 @@ interface MetricCardProps {
 }
 
 export const MetricCard = ({ number, label, icon }: MetricCardProps) => (
-  <Card className="bg-accent">
-    <CardContent className="p-4 text-center">
-      <div className="flex justify-center mb-2 text-primary">
-        {icon}
-      </div>
-      <div className="text-2xl font-bold">{number}</div>
-      <div className="text-sm text-muted-foreground">{label}</div>
-    </CardContent>
-  </Card>
+  <div className="bg-app-subtle rounded-lg p-4">
+    {/* Center icon */}
+    <div className="flex justify-center mb-2 text-primary">
+      {icon}
+    </div>
+    {/* Center number and label */}
+    <div className="text-center">
+      <div className="text-2xl font-bold text-app">{number}</div>
+      <div className="text-sm text-app-muted">{label}</div>
+    </div>
+  </div>
 );

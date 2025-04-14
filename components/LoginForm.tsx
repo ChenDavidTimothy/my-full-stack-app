@@ -3,17 +3,6 @@
 import { useState } from 'react';
 import { ForgotPasswordModal } from './ForgotPasswordModal';
 import Image from 'next/image';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string, isSignUp: boolean) => Promise<void>;
@@ -39,27 +28,26 @@ export function LoginForm({
   };
 
   return (
-    <Card className="w-full shadow-sm">
-      <CardHeader className="text-center space-y-6">
-        <div className="flex items-center justify-center gap-2">
+    <div className="w-full space-y-8 p-8 bg-surface rounded-2xl shadow-subtle border border-app">
+      <div className="text-center">
+        <div className="flex items-center justify-center gap-2 mb-6">
           <span className="text-3xl">🎬</span>
-          <CardTitle className="text-2xl font-medium">
+          <h2 className="text-2xl font-medium text-app">
             NextTemp
-          </CardTitle>
+          </h2>
         </div>
-        
-        {error && (
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-      </CardHeader>
+      </div>
 
-      <CardContent className="space-y-6">
-        <Button
-          variant="outline"
+      {error && (
+        <div className="text-danger text-center">
+          {error}
+        </div>
+      )}
+
+      <div className="mt-6 space-y-4">
+        <button
           onClick={onGoogleSignIn}
-          className="w-full"
+          className="w-full py-2.5 px-4 border border-app rounded-full shadow-subtle text-app bg-surface hover:bg-app-subtle transition-all flex items-center justify-center"
         >
           <Image
             src="/Google-Logo.png"
@@ -69,72 +57,72 @@ export function LoginForm({
             className="mr-2"
           />
           Sign in with Google
-        </Button>
+        </button>
 
-        <div className="flex items-center">
-          <Separator className="flex-grow" />
-          <span className="mx-4 text-sm text-muted-foreground">OR</span>
-          <Separator className="flex-grow" />
+        <div className="flex items-center my-6">
+          <div className="grow border-t border-app"></div>
+          <span className="mx-4 text-sm text-app-muted">OR</span>
+          <div className="grow border-t border-app"></div>
         </div>
+      </div>
+
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-app">
+          {isSignUp ? 'Create an account' : 'Are you an Email User?'}
+        </h2>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="rounded-md shadow-xs space-y-4">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email address"
+            className="input-app w-full"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="input-app w-full"
+          />
+        </div>
+
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => setIsForgotPasswordOpen(true)}
+            className="text-sm text-primary hover:text-primary-dark transition-colors"
+          >
+            Forgot your password?
+          </button>
+        </div>
+
+        <ForgotPasswordModal 
+          isOpen={isForgotPasswordOpen}
+          onClose={() => setIsForgotPasswordOpen(false)}
+        />
+
+        <button 
+          type="submit" 
+          disabled={isLoading}
+          className="w-full py-2.5 px-4 btn-primary rounded-full shadow-xs disabled:opacity-50 focus:outline-hidden focus:ring-2 focus:ring-color-primary focus:ring-offset-2 transition-all"
+        >
+          {isSignUp ? 'Sign up' : 'Sign in'} with Email
+        </button>
 
         <div className="text-center">
-          <CardTitle className="text-2xl font-bold">
-            {isSignUp ? 'Create an account' : 'Are you an Email User?'}
-          </CardTitle>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4">
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email address"
-            />
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <Button
-              type="button"
-              variant="link"
-              onClick={() => setIsForgotPasswordOpen(true)}
-              className="p-0 h-auto"
-            >
-              Forgot your password?
-            </Button>
-          </div>
-
-          <ForgotPasswordModal 
-            isOpen={isForgotPasswordOpen}
-            onClose={() => setIsForgotPasswordOpen(false)}
-          />
-
-          <Button 
-            type="submit" 
-            className="w-full"
-            disabled={isLoading}
+          <button
+            type="button"
+            onClick={() => setIsSignUp(!isSignUp)}
+            className="text-primary hover:text-primary-dark transition-colors"
           >
-            {isSignUp ? 'Sign up' : 'Sign in'} with Email
-          </Button>
-        </form>
-      </CardContent>
-
-      <CardFooter>
-        <Button
-          type="button"
-          variant="link"
-          onClick={() => setIsSignUp(!isSignUp)}
-          className="w-full"
-        >
-          {isSignUp ? 'Already have an account? Sign in' : 'Need an account? Sign up'}
-        </Button>
-      </CardFooter>
-    </Card>
+            {isSignUp ? 'Already have an account? Sign in' : 'Need an account? Sign up'}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
