@@ -2,13 +2,13 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-// import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/hooks/useSubscription';
 import { StripeBuyButton } from '@/components/StripeBuyButton';
 import { SubscriptionStatus } from '@/components/SubscriptionStatus';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function PaymentPage() {
-  // const { user } = useAuth();
   const { subscription, isLoading, error } = useSubscription();
   const router = useRouter();
 
@@ -31,16 +31,21 @@ export default function PaymentPage() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
-        <h1 className="text-xl md:text-2xl font-bold mb-4 text-center">Error Loading Subscription</h1>
-        <p className="text-app-muted mb-4 text-center">
-          Unable to load subscription information. Please try again later.
-        </p>
-        <button
-          onClick={() => router.push('/pay')}
-          className="bg-primary hover:bg-primary-darker text-white px-6 py-2 rounded-lg"
-        >
-          Retry
-        </button>
+        <Card className="max-w-md w-full">
+          <CardHeader>
+            <CardTitle>Error Loading Subscription</CardTitle>
+            <CardDescription>
+              Unable to load subscription information. Please try again later.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <Button
+              onClick={() => router.push('/pay')}
+            >
+              Retry
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -48,38 +53,43 @@ export default function PaymentPage() {
   if (!canSubscribe) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
-        <h1 className="text-xl md:text-2xl font-bold mb-4 text-center">Subscription Not Available</h1>
-        <p className="text-app-muted mb-4 text-center">
-          You already have an active or pending subscription.
-        </p>
-        <button
-          onClick={() => router.push('/profile')}
-          className="bg-primary hover:bg-primary-darker text-white px-6 py-2 rounded-lg"
-        >
-          View Subscription
-        </button>
+        <Card className="max-w-md w-full">
+          <CardHeader>
+            <CardTitle>Subscription Not Available</CardTitle>
+            <CardDescription>
+              You already have an active or pending subscription.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <Button
+              onClick={() => router.push('/profile')}
+            >
+              View Subscription
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
-      <h1 className="text-xl md:text-2xl font-bold mb-6 text-center">Complete Your Purchase</h1>
-      
-      <SubscriptionStatus />
+      <Card className="max-w-md w-full">
+        <CardHeader>
+          <CardTitle className="text-xl md:text-2xl text-center">
+            Complete Your Purchase
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <SubscriptionStatus />
 
-      <div className="w-full max-w-md px-4">
-        <StripeBuyButton
-          className="flex justify-center text-neutral"
-          buyButtonId={process.env.NEXT_PUBLIC_STRIPE_BUTTON_ID || ''}
-          publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''}
-        />
-      </div>
+          <StripeBuyButton
+            className="flex justify-center text-neutral"
+            buyButtonId={process.env.NEXT_PUBLIC_STRIPE_BUTTON_ID || ''}
+            publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }
-
-
-
-
-

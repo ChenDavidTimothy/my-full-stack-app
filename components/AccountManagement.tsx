@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export function AccountManagement() {
   const { user, signOut } = useAuth();
@@ -51,64 +55,74 @@ export function AccountManagement() {
   };
 
   return (
-    <div className="bg-surface rounded-lg shadow-xs p-6 mb-8">
-      <h2 className="text-xl font-semibold mb-4 text-app">Account Management</h2>
+    <Card className="mb-8">
+      <CardHeader>
+        <CardTitle>Account Management</CardTitle>
+      </CardHeader>
       
-      <div className="mb-6 space-y-2 text-app-muted">
-        <p><span className="font-medium">Email:</span> {user?.email}</p>
-        <p><span className="font-medium">Last Sign In:</span> {new Date(user?.last_sign_in_at || '').toLocaleString()}</p>
-        <p><span className="font-medium">Account Type:</span> {isOAuthUser ? 'Google Account' : 'Email Account'}</p>
-      </div>
-      
-      <div className="">
-        {!isOAuthUser && (
-          <button
-            onClick={handleResetPassword}
-            disabled={isResettingPassword}
-            className="block w-full text-left px-4 py-2 bg-app-muted rounded-lg hover:bg-app-subtle disabled:opacity-50 text-app"
-          >
-            {isResettingPassword ? 'Processing Request...' : 'Reset Password'}
-          </button>
-        )}
-
-        {/* Uncomment if you need the delete account button
-        <button
-          onClick={() => setIsDeleteModalOpen(true)}
-          className="w-full text-left px-4 py-2 bg-danger/20 text-danger rounded-lg hover:bg-danger/30 mt-4"
-        >
-          Delete Account
-        </button>
-        */}
-      </div>
-
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-          <div className="bg-surface rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-semibold mb-4 text-app">Delete Account?</h3>
-            <p className="text-app-muted mb-6">
-              This action cannot be undone. All your data will be permanently deleted.
-            </p>
-            {error && (
-              <p className="text-danger mb-4">{error}</p>
-            )}
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 text-app-muted"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDeleteAccount}
-                disabled={isLoading}
-                className="px-4 py-2 bg-danger text-white rounded-lg disabled:opacity-50"
-              >
-                {isLoading ? 'Deleting...' : 'Delete Account'}
-              </button>
-            </div>
-          </div>
+      <CardContent className="space-y-6">
+        <div className="space-y-2 text-muted-foreground">
+          <p><span className="font-medium">Email:</span> {user?.email}</p>
+          <p><span className="font-medium">Last Sign In:</span> {new Date(user?.last_sign_in_at || '').toLocaleString()}</p>
+          <p><span className="font-medium">Account Type:</span> {isOAuthUser ? 'Google Account' : 'Email Account'}</p>
         </div>
-      )}
-    </div>
+        
+        <div>
+          {!isOAuthUser && (
+            <Button
+              onClick={handleResetPassword}
+              disabled={isResettingPassword}
+              variant="outline"
+              className="w-full justify-start"
+            >
+              {isResettingPassword ? 'Processing Request...' : 'Reset Password'}
+            </Button>
+          )}
+
+          {/* Uncomment if you need the delete account button
+          <Button
+            onClick={() => setIsDeleteModalOpen(true)}
+            variant="destructive"
+            className="w-full justify-start mt-4"
+          >
+            Delete Account
+          </Button>
+          */}
+        </div>
+      </CardContent>
+
+      <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Account?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. All your data will be permanently deleted.
+            </DialogDescription>
+          </DialogHeader>
+          
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteAccount}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Deleting...' : 'Delete Account'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </Card>
   );
 }

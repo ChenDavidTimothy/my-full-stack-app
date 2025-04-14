@@ -38,11 +38,6 @@ export function StripeBuyButton({ buyButtonId, publishableKey, className }: Stri
     };
   }, [router]);
 
-  useEffect(() => {
-    // Debug log to verify Stripe key
-    // console.log('Stripe public key:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.substring(0, 8) + '...');
-  }, []);
-
   if (!user) return null;
 
   return (
@@ -63,4 +58,4 @@ export function StripeBuyButton({ buyButtonId, publishableKey, className }: Stri
       }}
     />
   );
-} 
+}

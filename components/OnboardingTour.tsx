@@ -1,6 +1,7 @@
-import { Fragment, useState, useEffect, useMemo } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/utils/supabase';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 interface OnboardingTourProps {
   isFirstTime: boolean;
@@ -22,8 +23,7 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
       title: "Start with a Template",
       description: (
         <div className="flex flex-col gap-2">
-          <p>Click  <button className="px-2 py-1 text-xs rounded-sm bg-primary hover:bg-primary-darker text-white w-fit">Use Template</button> to import one of our pre-made recipes into your collection.</p>
-          
+          <p>Click  <button className="px-2 py-1 text-xs rounded-sm bg-primary hover:bg-primary/90 text-primary-foreground w-fit">Use Template</button> to import one of our pre-made recipes into your collection.</p>
         </div>
       ),
       targetClass: "recipe-templates"
@@ -33,32 +33,36 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
       description: (
         <div className="flex flex-col gap-2 items-center">
           <p>Click the microphone to START speaking.</p>
-          <button className="w-12 h-12 mt-2 rounded-full flex items-center justify-center bg-primary hover:bg-primary-darker shadow-lg"><span className="text-xl text-white">🎤</span></button>
+          <Button variant="default" size="icon" className="w-12 h-12 mt-2 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center shadow-lg">
+            <span className="text-xl text-white">🎤</span>
+          </Button>
         </div>
       ),
       targetClass: "ai-assistant-button"
     },
     {
-        title: "Voice Stop",
-        description: (
-            <div className="flex flex-col gap-2 items-center">
-              <p>Click the red button to STOP voice interaction.</p>
-              <button className="w-12 h-12 mt-2 rounded-full flex items-center justify-center bg-red-500 hover:bg-danger shadow-lg"><span className="text-xl text-white">⏹</span></button>
-            </div>
-          ),
-          targetClass: "ai-assistant-button"
+      title: "Voice Stop",
+      description: (
+        <div className="flex flex-col gap-2 items-center">
+          <p>Click the red button to STOP voice interaction.</p>
+          <Button variant="destructive" size="icon" className="w-12 h-12 mt-2 rounded-full flex items-center justify-center shadow-lg">
+            <span className="text-xl text-white">⏹</span>
+          </Button>
+        </div>
+      ),
+      targetClass: "ai-assistant-button"
     },
     {
       title: "Add Your Own Recipe",
       description: (
         <div className="flex flex-col gap-2 items-center">
           <p>Click the button below to add your own recipe:</p>
-          <button className="w-48 mt-2 sm:w-auto px-4 py-2 rounded-lg flex items-center justify-center gap-2 bg-primary hover:bg-primary-darker text-white">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <Button className="w-48 mt-2 sm:w-auto">
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
-            <span>Add New Recipe</span>
-          </button>
+            Add New Recipe
+          </Button>
         </div>
       ),
       targetClass: "add-recipe-button"
@@ -157,49 +161,36 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
   }, [currentStep, isOpen, steps]);
 
   return (
-    <Transition show={isOpen} as={Fragment}>
-      <Dialog 
-        onClose={() => {}}
-        className="fixed inset-0 z-50 overflow-y-auto"
-      >
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-
-          <div className="relative bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 w-[400px] min-h-[250px] max-w-[calc(100%-2rem)]">
-            <h2 className="text-lg font-medium text-app dark:text-white">
-              {steps[currentStep].title}
-            </h2>
-
-            <div className="min-h-[120px] mt-4">
-              <div className="text-app-muted dark:text-gray-300">
-                {steps[currentStep].description}
-              </div>
-            </div>
-
-            <div className="mt-2 flex justify-between items-center">
-              <button
-                onClick={handlePrevious}
-                className={`bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
-                  text-app-subtle dark:text-gray-300 px-4 py-2 rounded-full 
-                  ${currentStep === 0 ? 'invisible' : ''}`}
-              >
-                Previous
-              </button>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">
-                  {currentStep + 1} of {steps.length}
-                </span>
-                <button
-                  onClick={handleNext}
-                  className="bg-primary hover:bg-primary-dark text-white px-4 py-2 ml-2 rounded-full"
-                >
-                  {currentStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </button>
-              </div>
-            </div>
+    <Dialog open={isOpen} onOpenChange={() => {}}>
+      <DialogContent className="sm:max-w-[400px] min-h-[250px]">
+        <DialogHeader>
+          <DialogTitle>{steps[currentStep].title}</DialogTitle>
+          <DialogDescription className="min-h-[120px] mt-4">
+            {steps[currentStep].description}
+          </DialogDescription>
+        </DialogHeader>
+        
+        <DialogFooter className="flex justify-between items-center">
+          <Button
+            onClick={handlePrevious}
+            variant="outline"
+            className={`${currentStep === 0 ? 'invisible' : ''}`}
+          >
+            Previous
+          </Button>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">
+              {currentStep + 1} of {steps.length}
+            </span>
+            <Button
+              onClick={handleNext}
+              variant="default"
+            >
+              {currentStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
           </div>
-        </div>
-      </Dialog>
-    </Transition>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

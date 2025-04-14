@@ -4,6 +4,9 @@ import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSearchParams } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 function ResetPasswordContent() {
   const { supabase } = useAuth();
@@ -57,58 +60,65 @@ function ResetPasswordContent() {
 
   if (!email) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-app">
-        <div className="max-w-md w-full space-y-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-app">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+        <Card className="max-w-md w-full">
+          <CardHeader className="text-center">
+            <CardTitle>
               Invalid Request
-            </h2>
-            <p className="mt-2 text-app-muted">
+            </CardTitle>
+            <CardDescription>
               No email address provided. Please try the reset password link again.
-            </p>
-          </div>
-        </div>
+            </CardDescription>
+          </CardHeader>
+        </Card>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-app">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-app">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+      <Card className="max-w-md w-full">
+        <CardHeader className="text-center">
+          <CardTitle>
             Reset Password
-          </h2>
-          <p className="mt-2 text-app-muted">
+          </CardTitle>
+          <CardDescription>
             Sending reset link to: <span className="font-medium">{email}</span>
-          </p>
-        </div>
+          </CardDescription>
+        </CardHeader>
 
-        {error && (
-          <div className="bg-danger/10 text-danger p-4 rounded-lg">
-            {error}
-            <button
-              onClick={() => {
-                hasAttemptedResetRef.current = true; // Set again before retry
-                handleResetPassword();
-              }}
-              className="ml-2 underline hover:text-danger-light"
-            >
-              Try again
-            </button>
-          </div>
-        )}
+        <CardContent className="space-y-4">
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>
+                {error}
+                <Button
+                  onClick={() => {
+                    hasAttemptedResetRef.current = true; // Set again before retry
+                    handleResetPassword();
+                  }}
+                  variant="link"
+                  className="ml-2 p-0 h-auto"
+                >
+                  Try again
+                </Button>
+              </AlertDescription>
+            </Alert>
+          )}
 
-        {success ? (
-          <div className="bg-success/10 text-success p-4 rounded-lg">
-            Reset link has been sent to your email address. Please check your inbox.
-          </div>
-        ) : (
-          <div className="text-center text-app-muted">
-            {isLoading ? 'Sending reset link...' : 'Processing your request...'}
-          </div>
-        )}
-      </div>
+          {success ? (
+            <Alert variant="default" className="border-green-500 bg-green-50 dark:bg-green-900/20">
+              <AlertDescription className="text-green-600 dark:text-green-400">
+                Reset link has been sent to your email address. Please check your inbox.
+              </AlertDescription>
+            </Alert>
+          ) : (
+            <div className="text-center text-muted-foreground">
+              {isLoading ? 'Sending reset link...' : 'Processing your request...'}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

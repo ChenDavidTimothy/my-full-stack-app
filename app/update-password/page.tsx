@@ -3,6 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default function UpdatePasswordPage() {
   const { supabase } = useAuth();
@@ -89,110 +94,111 @@ export default function UpdatePasswordPage() {
   // Loading state during initial session check
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-app">
-        <div className="max-w-md w-full space-y-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-app">Update Password</h2>
-            <p className="mt-2 text-app-muted">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+        <Card className="max-w-md w-full">
+          <CardHeader className="text-center">
+            <CardTitle>Update Password</CardTitle>
+            <CardDescription>
               Verifying your recovery session...
-            </p>
-            <div className="mt-4 flex justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
-          </div>
-        </div>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   // Main form UI
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-app">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-app">Update Password</h2>
-          <p className="mt-2 text-app-muted">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+      <Card className="max-w-md w-full">
+        <CardHeader className="text-center">
+          <CardTitle>Update Password</CardTitle>
+          <CardDescription>
             Please enter your new password
-          </p>
-        </div>
+          </CardDescription>
+        </CardHeader>
 
-        {error && (
-          <div className="bg-danger/10 text-danger p-4 rounded-lg">
-            {error}
-            <div className="mt-2">
-              <button
-                onClick={() => router.push('/reset-password?email=')}
-                className="text-danger-light underline hover:text-danger"
-              >
-                Request a new reset link
-              </button>
-            </div>
-          </div>
-        )}
-
-        {success ? (
-          <div className="bg-success/10 text-success p-4 rounded-lg">
-            <p>Password updated successfully!</p>
-            <p className="mt-2">Redirecting to login page...</p>
-            <div className="mt-4 flex justify-center">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-success"></div>
-            </div>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="newPassword" className="sr-only">
-                  New Password
-                </label>
-                <input
-                  id="newPassword"
-                  name="newPassword"
-                  type="password"
-                  required
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-app placeholder-app-muted text-app focus:outline-hidden focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-app-muted"
-                  placeholder="New Password"
-                  minLength={6}
-                  disabled={!!error}
-                />
-              </div>
-              <div>
-                <label htmlFor="confirmPassword" className="sr-only">
-                  Confirm Password
-                </label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-app placeholder-app-muted text-app focus:outline-hidden focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-app-muted"
-                  placeholder="Confirm Password"
-                  minLength={6}
-                  disabled={!!error}
-                />
-              </div>
-            </div>
-            <button
-              type="submit"
-              disabled={isLoading || !!error}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-xs text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
-            >
-              {isLoading ? (
-                <div className="flex items-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  <span>Updating...</span>
+        <CardContent>
+          {error && (
+            <Alert variant="destructive" className="mb-4">
+              <AlertDescription>
+                {error}
+                <div className="mt-2">
+                  <Button
+                    onClick={() => router.push('/reset-password?email=')}
+                    variant="link"
+                    className="text-destructive p-0"
+                  >
+                    Request a new reset link
+                  </Button>
                 </div>
-              ) : (
-                'Update Password'
-              )}
-            </button>
-          </form>
-        )}
-      </div>
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {success ? (
+            <Alert variant="default" className="border-green-500 bg-green-50 dark:bg-green-900/20">
+              <AlertDescription className="text-green-600 dark:text-green-400">
+                <p>Password updated successfully!</p>
+                <p className="mt-2">Redirecting to login page...</p>
+                <div className="mt-4 flex justify-center">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-600 dark:border-green-400"></div>
+                </div>
+              </AlertDescription>
+            </Alert>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="newPassword">New Password</Label>
+                  <Input
+                    id="newPassword"
+                    name="newPassword"
+                    type="password"
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="New Password"
+                    minLength={6}
+                    disabled={!!error}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm Password"
+                    minLength={6}
+                    disabled={!!error}
+                  />
+                </div>
+              </div>
+              <Button
+                type="submit"
+                disabled={isLoading || !!error}
+                className="w-full"
+              >
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    <span>Updating...</span>
+                  </div>
+                ) : (
+                  'Update Password'
+                )}
+              </Button>
+            </form>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

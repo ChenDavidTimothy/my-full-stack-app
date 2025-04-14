@@ -10,6 +10,11 @@ import { Suspense } from 'react';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { StripeBuyButton } from '@/components/StripeBuyButton';
 import { useTrialStatus } from '@/hooks/useTrialStatus';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 
 function ProfileContent() {
   const { user } = useAuth();
@@ -134,9 +139,9 @@ function ProfileContent() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-app">
-        <div className="text-app">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-app mb-4 mx-auto"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4 mx-auto"></div>
           <p>Redirecting to login...</p>
         </div>
       </div>
@@ -151,7 +156,7 @@ function ProfileContent() {
         </div>
       }
     >
-      <div className="min-h-screen bg-app">
+      <div className="min-h-screen bg-background">
         <div className="w-full max-w-4xl mx-auto p-8">
           {paymentStatus === 'success' && (
             <div className="mb-8 p-4 bg-success/10 rounded-lg">
@@ -161,145 +166,157 @@ function ProfileContent() {
             </div>
           )}
           
-          <h1 className="text-3xl font-bold mb-8 text-app">Profile</h1>
+          <h1 className="text-3xl font-bold mb-8">Profile</h1>
           
-          <div className="bg-surface rounded-lg shadow-xs p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4 text-app">Account Management</h2>
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>Account Management</CardTitle>
+            </CardHeader>
             
             {/* User Information */}
-            <div className="mb-6 space-y-2 text-app-muted">
+            <CardContent className="space-y-2 text-muted-foreground">
               <p><span className="font-medium">Email:</span> {user?.email}</p>
               <p><span className="font-medium">Last Sign In:</span> {new Date(user?.last_sign_in_at || '').toLocaleString()}</p>
               <p><span className="font-medium">Account Type:</span> {user?.app_metadata?.provider === 'google' ? 'Google Account' : 'Email Account'}</p>
-            </div>
+            </CardContent>
             
-            <div className="">
+            <CardFooter>
               {user?.app_metadata?.provider !== 'google' && (
-                <button
+                <Button
                   onClick={() => router.push(`/reset-password?email=${encodeURIComponent(user?.email || '')}`)}
-                  className="block w-full text-left px-4 py-2 bg-app-muted rounded-lg hover:bg-app-subtle text-app"
+                  variant="outline"
+                  className="w-full justify-start"
                 >
                   Reset Password
-                </button>
+                </Button>
               )}
-            </div>
-          </div>
+            </CardFooter>
+          </Card>
 
           {/* Subscription Section */}
-          <div className="bg-surface rounded-lg shadow-xs p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4 text-app">Subscription Status</h2>
-            {error ? (
-              <div className="text-danger">{error}</div>
-            ) : isLoadingSubscription ? (
-              <div className="flex items-center space-x-2 text-app">
-                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                <span>Loading subscription details...</span>
-              </div>
-            ) : subscription ? (
-              <div className="space-y-2 text-app-muted">
-                <p>
-                  <span className="font-medium">Status:</span>{' '}
-                  <span className={`${subscription.status === 'active' ? 'text-success' : 'text-warning'}`}>
-                    {subscription.status.charAt(0).toUpperCase() + subscription.status.slice(1)}
-                  </span>
-                </p>
-                <p><span className="font-medium">Started:</span> {new Date(subscription.created_at).toLocaleDateString()}</p>
-                
-                {subscription.status === 'canceled' ? (
-                  <div className="mt-4">
-                    <Link
-                      href="/pay"
-                      className="inline-block px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-full shadow-subtle hover:shadow-hover transition-all"
-                    >
-                      Resubscribe
-                    </Link>
-                  </div>
-                ) : subscription.cancel_at_period_end ? (
-                  <div className="mt-4 p-4 bg-warning/10 text-warning rounded-lg">
-                    <p className="mb-2">
-                      Your subscription will end on {new Date(subscription.current_period_end).toLocaleDateString()}
+          <Card>
+            <CardHeader>
+              <CardTitle>Subscription Status</CardTitle>
+            </CardHeader>
+            
+            <CardContent>
+              {error ? (
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              ) : isLoadingSubscription ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                  <span>Loading subscription details...</span>
+                </div>
+              ) : subscription ? (
+                <div className="space-y-4">
+                  <div className="space-y-2 text-muted-foreground">
+                    <p>
+                      <span className="font-medium">Status:</span>{' '}
+                      <Badge variant={subscription.status === 'active' ? 'default' : 'secondary'}>
+                        {subscription.status.charAt(0).toUpperCase() + subscription.status.slice(1)}
+                      </Badge>
                     </p>
-                    <button
-                      onClick={handleReactivateSubscription}
-                      className="bg-success hover:bg-success-light text-white px-4 py-2 rounded-lg"
-                    >
-                      Resume Subscription
-                    </button>
+                    <p><span className="font-medium">Started:</span> {new Date(subscription.created_at).toLocaleDateString()}</p>
                   </div>
-                ) : (subscription.status === 'active' || subscription.status === 'trialing') ? (
-                  <button
-                    onClick={() => setIsCancelModalOpen(true)}
-                    className="bg-danger hover:bg-danger-light text-white px-4 py-2 rounded-lg mt-4"
-                  >
-                    Cancel Subscription
-                  </button>
-                ) : null}
-              </div>
-            ) : (
-              <div className="mt-4 space-y-4 text-app">
-                {isInTrial ? (
-                  <>
-                    <p className="text-warning">
-                      You are currently in your 48-hour trial period. Your trial will end on {' '}
-                      {trialEndTime ? new Date(trialEndTime).toLocaleDateString() : 'soon'}.
-                    </p>
-                    <p>Subscribe now to continue using the app after the trial ends.</p>
-                  </>
-                ) : trialEndTime ? (
-                  <>
+                  
+                  {subscription.status === 'canceled' ? (
+                    <Button
+                      asChild
+                      className="mt-4"
+                    >
+                      <Link href="/pay">
+                        Resubscribe
+                      </Link>
+                    </Button>
+                  ) : subscription.cancel_at_period_end ? (
+                    <div className="mt-4 p-4 bg-warning/10 text-warning rounded-lg">
+                      <p className="mb-2">
+                        Your subscription will end on {new Date(subscription.current_period_end).toLocaleDateString()}
+                      </p>
+                      <Button
+                        onClick={handleReactivateSubscription}
+                        className="bg-success hover:bg-success-dark text-white"
+                      >
+                        Resume Subscription
+                      </Button>
+                    </div>
+                  ) : (subscription.status === 'active' || subscription.status === 'trialing') ? (
+                    <Button
+                      onClick={() => setIsCancelModalOpen(true)}
+                      variant="destructive"
+                      className="mt-4"
+                    >
+                      Cancel Subscription
+                    </Button>
+                  ) : null}
+                </div>
+              ) : (
+                <div className="mt-4 space-y-4">
+                  {isInTrial ? (
+                    <div className="text-warning">
+                      <p>
+                        You are currently in your 48-hour trial period. Your trial will end on {' '}
+                        {trialEndTime ? new Date(trialEndTime).toLocaleDateString() : 'soon'}.
+                      </p>
+                      <p className="mt-2">Subscribe now to continue using the app after the trial ends.</p>
+                    </div>
+                  ) : trialEndTime ? (
                     <div className="p-4 bg-danger/10 text-danger rounded-lg mb-4">
                       <p>
                         Your trial period ended on {new Date(trialEndTime).toLocaleDateString()}.
                       </p>
                       <p className="mt-2">Subscribe now to regain access to the app.</p>
                     </div>
-                  </>
-                ) : (
-                  <p>Subscribe to unlock the full experience.</p>
-                )}
-                
-                <StripeBuyButton
-                  buyButtonId={process.env.NEXT_PUBLIC_STRIPE_BUTTON_ID || ''}
-                  publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''}
-                />
-              </div>
-            )}
-          </div>
+                  ) : (
+                    <p>Subscribe to unlock the full experience.</p>
+                  )}
+                  
+                  <StripeBuyButton
+                    buyButtonId={process.env.NEXT_PUBLIC_STRIPE_BUTTON_ID || ''}
+                    publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''}
+                  />
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
           {/* Cancel Confirmation Modal */}
-          {isCancelModalOpen && (
-            <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-              <div className="bg-surface rounded-lg p-6 max-w-md w-full">
-                <h3 className="text-xl font-semibold mb-4 text-app">Cancel Subscription?</h3>
-                <p className="text-app-muted mb-6">
+          <Dialog open={isCancelModalOpen} onOpenChange={setIsCancelModalOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Cancel Subscription?</DialogTitle>
+                <DialogDescription>
                   You&apos;ll continue to have access until the end of your billing period on {new Date(subscription?.current_period_end || '').toLocaleDateString()}. No refunds are provided for cancellations.
-                </p>
-                <div className="flex gap-4 justify-end">
-                  <button
-                    onClick={() => setIsCancelModalOpen(false)}
-                    className="px-4 py-2 text-app-muted hover:bg-app-muted rounded-lg"
-                    disabled={isCancelling}
-                  >
-                    Keep Subscription
-                  </button>
-                  <button
-                    onClick={handleCancelSubscription}
-                    className="bg-danger hover:bg-danger-light text-white px-4 py-2 rounded-lg flex items-center gap-2"
-                    disabled={isCancelling}
-                  >
-                    {isCancelling ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Canceling...
-                      </>
-                    ) : (
-                      'Yes, Cancel'
-                    )}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="flex-row justify-end gap-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsCancelModalOpen(false)}
+                  disabled={isCancelling}
+                >
+                  Keep Subscription
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={handleCancelSubscription}
+                  disabled={isCancelling}
+                  className="flex items-center gap-2"
+                >
+                  {isCancelling ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Canceling...
+                    </>
+                  ) : (
+                    'Yes, Cancel'
+                  )}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </ErrorBoundary>

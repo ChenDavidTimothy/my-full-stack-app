@@ -1,7 +1,9 @@
-import { motion } from 'framer-motion';
-import { CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CheckCircle2 } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 const pricingTiers = [
   {
@@ -69,51 +71,55 @@ export function PricingSection() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-      {pricingTiers.map((tier, i) => (
-        <motion.div
+      {pricingTiers.map((tier) => (
+        <Card 
           key={tier.name}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.1 }}
-          onClick={() => handleTierClick(tier.id)}
-          className={`relative rounded-2xl p-8 shadow-lg cursor-pointer transition-all duration-300 ${
+          className={`relative cursor-pointer transition-all duration-300 ${
             selectedTier === tier.id
-              ? 'bg-primary/5 ring-2 ring-primary transform scale-105'
-              : 'bg-surface ring-1 ring-app-subtle hover:ring-primary/50'
+              ? 'ring-2 ring-primary bg-primary/5 scale-105'
+              : 'ring-1 ring-muted hover:ring-primary/50'
           }`}
+          onClick={() => handleTierClick(tier.id)}
         >
           {tier.popular && (
-            <span className="absolute top-0 right-6 -translate-y-1/2 px-3 py-1 text-sm bg-primary text-color-text-inverse rounded-full">
+            <Badge 
+              className="absolute top-0 right-6 -translate-y-1/2" 
+              variant="default"
+            >
               Popular
-            </span>
+            </Badge>
           )}
-          <h3 className="text-xl font-semibold text-app">{tier.name}</h3>
-          <div className="mt-4 flex items-baseline">
-            <span className="text-4xl font-bold text-app">{tier.price}</span>
-            <span className="ml-1 text-app-muted">{tier.interval}</span>
-          </div>
-          <p className="mt-4 text-app-muted">{tier.description}</p>
-          <ul className="mt-8 space-y-4">
-            {tier.features.map((feature) => (
-              <li key={feature} className="flex items-center">
-                <CheckCircle2 className="h-5 w-5 text-primary mr-3" />
-                <span className="text-app-subtle">{feature}</span>
-              </li>
-            ))}
-          </ul>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleCTAClick}
-            className={`mt-8 w-full py-3 px-4 rounded-lg text-center font-medium transition-colors ${
-              selectedTier === tier.id
-                ? 'btn-primary'
-                : 'bg-app-subtle text-app hover:bg-app-muted'
-            }`}
-          >
-            {tier.cta}
-          </motion.button>
-        </motion.div>
+          
+          <CardHeader>
+            <CardTitle>{tier.name}</CardTitle>
+            <div className="mt-4 flex items-baseline">
+              <span className="text-4xl font-bold">{tier.price}</span>
+              <span className="ml-1 text-muted-foreground">{tier.interval}</span>
+            </div>
+            <CardDescription>{tier.description}</CardDescription>
+          </CardHeader>
+          
+          <CardContent>
+            <ul className="space-y-4">
+              {tier.features.map((feature) => (
+                <li key={feature} className="flex items-center">
+                  <CheckCircle2 className="h-5 w-5 text-primary mr-3" />
+                  <span className="text-muted-foreground">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+          
+          <CardFooter>
+            <Button
+              onClick={handleCTAClick}
+              className="w-full"
+              variant={selectedTier === tier.id ? "default" : "outline"}
+            >
+              {tier.cta}
+            </Button>
+          </CardFooter>
+        </Card>
       ))}
     </div>
   );
