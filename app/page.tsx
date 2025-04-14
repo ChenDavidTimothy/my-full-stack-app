@@ -65,19 +65,19 @@ const platforms = [
   { name: 'Platform 9', icon: FaYoutube }
 ];
 
-// Update workflowSections to be generic with our theming system
+// Update workflowSections to be generic with shadcn theming system
 const workflowSections = [
   {
     id: "overview",
     title: "Overview",
     description: "Everything you need to build modern SaaS applications",
-    bgClass: "bg-app"
+    bgClass: "bg-background"
   },
   {
     id: "authentication",
     title: "Authentication",
     description: "Secure user authentication with multiple providers",
-    bgClass: "bg-app-subtle",
+    bgClass: "bg-muted",
     metrics: [
       { label: "Auth Providers", value: "5+" },
       { label: "Setup Time", value: "2min" },
@@ -88,7 +88,7 @@ const workflowSections = [
     id: "payments",
     title: "Payments",
     description: "Seamless payment integration with Stripe",
-    bgClass: "bg-app",
+    bgClass: "bg-background",
     metrics: [
       { label: "Integration", value: "1-Click" },
       { label: "Providers", value: "Stripe" },
@@ -99,7 +99,7 @@ const workflowSections = [
     id: "database",
     title: "Database",
     description: "Powerful database with Supabase integration",
-    bgClass: "bg-app-subtle",
+    bgClass: "bg-muted",
     metrics: [
       { label: "Database", value: "PostgreSQL" },
       { label: "Real-time", value: "Yes" },
@@ -110,7 +110,7 @@ const workflowSections = [
     id: "features",
     title: "Features",
     description: "Additional features to enhance your application",
-    bgClass: "bg-app",
+    bgClass: "bg-background",
     metrics: [
       { label: "Dark Mode", value: "Built-in" },
       { label: "Components", value: "50+" },
@@ -121,7 +121,7 @@ const workflowSections = [
     id: "pricing",
     title: "Pricing",
     description: "Simple, transparent pricing for your needs",
-    bgClass: "bg-app-subtle"
+    bgClass: "bg-muted"
   }
 ];
 
@@ -195,9 +195,9 @@ export default function LandingPage() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-app relative">
+    <div className="min-h-screen bg-background relative">
       {/* Enhanced Sticky Navigation */}
-      <nav className="sticky top-0 z-50 bg-surface/80 backdrop-blur-xs border-b border-app">
+      <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-xs border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 overflow-x-auto hide-scrollbar">
             {workflowSections.map((section, index) => (
@@ -215,7 +215,7 @@ export default function LandingPage() {
                   <span 
                     className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 transition-all duration-300
                       ${activeSection === section.id 
-                      ? 'bg-primary text-white' 
+                      ? 'bg-primary text-primary-foreground' 
                       : 'bg-primary/10 text-primary group-hover:bg-primary/20'}`}
                   >
                     {index + 1}
@@ -225,7 +225,7 @@ export default function LandingPage() {
                   className={`text-sm font-medium transition-colors duration-300 hidden md:block whitespace-nowrap
                     ${activeSection === section.id 
                     ? 'text-primary' 
-                    : 'text-app-muted group-hover:text-primary'}`}
+                    : 'text-muted-foreground group-hover:text-primary'}`}
                 >
                   {section.title}
                 </span>
@@ -243,11 +243,11 @@ export default function LandingPage() {
           <div className="relative pt-20 pb-16 sm:pb-24">
             {/* Header Content */}
             <div className="text-center">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-app">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground">
                 <span className="block">Next.js + Stripe + Supabase</span>
                 <span className="block text-primary">Production-Ready Template</span>
               </h1>
-              <p className="mt-6 max-w-2xl mx-auto text-lg text-app-muted">
+              <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
                 Start building with authentication and payments in minutes.
               </p>
               
@@ -257,13 +257,13 @@ export default function LandingPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setIsVideoModalOpen(true)}
-                  className="px-8 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg shadow-lg hover:shadow-xl transition-all"
+                  className="px-8 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-lg hover:shadow-xl transition-all"
                 >
                   Watch Demo
                 </motion.button>
                 <button 
                   onClick={() => router.push('/dashboard')} 
-                  className="px-8 py-3 bg-surface hover:bg-app-subtle text-primary border-2 border-primary rounded-lg shadow-lg hover:shadow-xl transition-all"
+                  className="px-8 py-3 bg-card hover:bg-muted text-primary border-2 border-primary rounded-lg shadow-lg hover:shadow-xl transition-all"
                 >
                   Start Free Trial
                 </button>
@@ -301,14 +301,14 @@ export const DevLife = () => {
                   <motion.div
                     key={step.title}
                     initial={{ opacity: 1, y: 0 }}
-                    className="relative p-4 bg-surface/5 backdrop-blur-xs rounded-xl shadow-lg border border-app-subtle hover:border-primary/50 transition-colors"
+                    className="relative p-4 bg-card/5 backdrop-blur-xs rounded-xl shadow-lg border border-border hover:border-primary/50 transition-colors"
                   >
-                    <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-semibold">
+                    <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-semibold">
                       {index + 1}
                     </div>
                     <div className="ml-8">
-                      <h3 className="font-semibold text-app">{step.title}</h3>
-                      <p className="text-sm text-app-muted">{step.description}</p>
+                      <h3 className="font-semibold text-foreground">{step.title}</h3>
+                      <p className="text-sm text-muted-foreground">{step.description}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -332,10 +332,10 @@ export const DevLife = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Section header */}
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-app">
+              <h2 className="text-3xl font-bold text-foreground">
                 {section.title}
               </h2>
-              <p className="mt-4 text-lg text-app-muted">
+              <p className="mt-4 text-lg text-muted-foreground">
                 {section.description}
               </p>
             </div>
@@ -349,12 +349,12 @@ export const DevLife = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="bg-surface/5 backdrop-blur-xs rounded-xl p-6 border border-app-subtle"
+                    className="bg-card/5 backdrop-blur-xs rounded-xl p-6 border border-border"
                   >
                     <div className="text-3xl font-bold text-primary mb-2">
                       {metric.value}
                     </div>
-                    <div className="text-sm text-app-muted">
+                    <div className="text-sm text-muted-foreground">
                       {metric.label}
                     </div>
                   </motion.div>
@@ -376,16 +376,16 @@ export const DevLife = () => {
       >
         <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-accent/10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative bg-surface rounded-xl shadow-xl p-12 border border-app">
+          <div className="relative bg-card rounded-xl shadow-xl p-12 border border-border">
             <div className="text-center">
               <motion.h2 
                 initial={{ y: 20 }}
                 whileInView={{ y: 0 }}
-                className="text-3xl font-bold text-app"
+                className="text-3xl font-bold text-foreground"
               >
                 Ready to Get Started?
               </motion.h2>
-              <p className="mt-4 text-lg text-app-muted">
+              <p className="mt-4 text-lg text-muted-foreground">
                 Start using our product today
               </p>
               
@@ -394,7 +394,7 @@ export const DevLife = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setIsVideoModalOpen(true)}
-                  className="px-8 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg shadow-lg hover:shadow-xl transition-all"
+                  className="px-8 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-lg hover:shadow-xl transition-all"
                 >
                   Watch Demo
                 </motion.button>
@@ -402,7 +402,7 @@ export const DevLife = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => router.push('/dashboard')}
-                  className="px-8 py-3 bg-surface hover:bg-app-subtle text-primary border-2 border-primary rounded-lg shadow-lg hover:shadow-xl transition-all"
+                  className="px-8 py-3 bg-card hover:bg-muted text-primary border-2 border-primary rounded-lg shadow-lg hover:shadow-xl transition-all"
                 >
                   Start Free Trial
                 </motion.button>

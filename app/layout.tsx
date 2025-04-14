@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geist.className} bg-app text-app`} suppressHydrationWarning={true}>
+      <body className={`${geist.className} bg-background text-foreground`} suppressHydrationWarning={true}>
         <Analytics mode="auto" />
         <ThemeProvider>
           <AuthProvider>   

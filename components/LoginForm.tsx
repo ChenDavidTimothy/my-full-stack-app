@@ -64,11 +64,12 @@ export function LoginForm({
           Sign in with Google
         </Button>
 
-        <div className="flex items-center my-6">
-          <Separator className="flex-grow" />
+        <div className="flex items-center justify-center my-6 w-full px-4">
+          <Separator className="w-full flex-1 h-px bg-muted-foreground" />
           <span className="mx-4 text-sm text-muted-foreground">OR</span>
-          <Separator className="flex-grow" />
+          <Separator className="w-full flex-1 h-px bg-muted-foreground" />
         </div>
+
 
         <div className="text-center">
           <CardTitle className="text-2xl font-bold">

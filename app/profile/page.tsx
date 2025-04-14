@@ -151,7 +151,7 @@ function ProfileContent() {
   return (
     <ErrorBoundary
       fallback={
-        <div className="p-4 text-danger">
+        <div className="p-4 text-destructive">
           Failed to load subscription details. Please try refreshing.
         </div>
       }
@@ -237,7 +237,7 @@ function ProfileContent() {
                       </p>
                       <Button
                         onClick={handleReactivateSubscription}
-                        className="bg-success hover:bg-success-dark text-white"
+                        className="bg-success hover:bg-success/90 text-success-foreground"
                       >
                         Resume Subscription
                       </Button>
@@ -263,7 +263,7 @@ function ProfileContent() {
                       <p className="mt-2">Subscribe now to continue using the app after the trial ends.</p>
                     </div>
                   ) : trialEndTime ? (
-                    <div className="p-4 bg-danger/10 text-danger rounded-lg mb-4">
+                    <div className="p-4 bg-destructive/10 text-destructive rounded-lg mb-4">
                       <p>
                         Your trial period ended on {new Date(trialEndTime).toLocaleDateString()}.
                       </p>
