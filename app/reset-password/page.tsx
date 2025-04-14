@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSearchParams } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -17,21 +17,8 @@ function ResetPasswordContent() {
   // This persists across re-renders without triggering them
   const hasAttemptedResetRef = useRef(false);
 
-  // Improved effect with proper dependencies and reset tracking
-  useEffect(() => {
-    // Only proceed if: 
-    // 1. We have an email
-    // 2. We haven't already attempted a reset
-    // 3. We're not currently loading
-    // 4. We haven't already succeeded
-    if (email && !hasAttemptedResetRef.current && !isLoading && !success) {
-      // Mark as attempted BEFORE making the async call
-      hasAttemptedResetRef.current = true;
-      handleResetPassword();
-    }
-  }, [email, isLoading, success]); // Proper dependency array with all used values
-
-  const handleResetPassword = async () => {
+  // Use useCallback to memoize the function and prevent unnecessary re-renders
+  const handleResetPassword = useCallback(async () => {
     if (!email) return;
     
     setIsLoading(true);
@@ -52,14 +39,30 @@ function ResetPasswordContent() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [email, supabase]); // Include all dependencies used in the function
+
+  // Improved effect with proper dependencies including handleResetPassword
+  useEffect(() => {
+    // Only proceed if: 
+    // 1. We have an email
+    // 2. We haven't already attempted a reset
+    // 3. We're not currently loading
+    // 4. We haven't already succeeded
+    if (email && !hasAttemptedResetRef.current && !isLoading && !success) {
+      // Mark as attempted BEFORE making the async call
+      hasAttemptedResetRef.current = true;
+      handleResetPassword();
+    }
+  }, [email, isLoading, success, handleResetPassword]); // Include handleResetPassword in deps
 
   if (!email) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-slate-900">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Invalid Request</h2>
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+              Invalid Request
+            </h2>
             <p className="mt-2 text-slate-600 dark:text-slate-300">
               No email address provided. Please try the reset password link again.
             </p>
@@ -73,7 +76,9 @@ function ResetPasswordContent() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-slate-900">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Reset Password</h2>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+            Reset Password
+          </h2>
           <p className="mt-2 text-slate-600 dark:text-slate-300">
             Sending reset link to: <span className="font-medium">{email}</span>
           </p>
