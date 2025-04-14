@@ -9,7 +9,7 @@ interface MetricCardProps {
 export const MetricCard = ({ number, label, icon }: MetricCardProps) => (
   <div className="bg-app-subtle rounded-lg p-4">
     {/* Center icon */}
-    <div className="flex justify-center mb-2">
+    <div className="flex justify-center mb-2 text-primary">
       {icon}
     </div>
     {/* Center number and label */}

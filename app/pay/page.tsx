@@ -32,7 +32,7 @@ export default function PaymentPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
         <h1 className="text-xl md:text-2xl font-bold mb-4 text-center">Error Loading Subscription</h1>
-        <p className="text-gray-600 mb-4 text-center">
+        <p className="text-app-muted mb-4 text-center">
           Unable to load subscription information. Please try again later.
         </p>
         <button
@@ -49,7 +49,7 @@ export default function PaymentPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
         <h1 className="text-xl md:text-2xl font-bold mb-4 text-center">Subscription Not Available</h1>
-        <p className="text-gray-600 mb-4 text-center">
+        <p className="text-app-muted mb-4 text-center">
           You already have an active or pending subscription.
         </p>
         <button

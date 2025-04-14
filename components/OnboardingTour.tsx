@@ -43,7 +43,7 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
         description: (
             <div className="flex flex-col gap-2 items-center">
               <p>Click the red button to STOP voice interaction.</p>
-              <button className="w-12 h-12 mt-2 rounded-full flex items-center justify-center bg-red-500 hover:bg-red-600 shadow-lg"><span className="text-xl text-white">⏹</span></button>
+              <button className="w-12 h-12 mt-2 rounded-full flex items-center justify-center bg-red-500 hover:bg-danger shadow-lg"><span className="text-xl text-white">⏹</span></button>
             </div>
           ),
           targetClass: "ai-assistant-button"
@@ -166,12 +166,12 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
           <div className="relative bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 w-[400px] min-h-[250px] max-w-[calc(100%-2rem)]">
-            <h2 className="text-lg font-medium text-gray-900 dark:text-white">
+            <h2 className="text-lg font-medium text-app dark:text-white">
               {steps[currentStep].title}
             </h2>
 
             <div className="min-h-[120px] mt-4">
-              <div className="text-gray-600 dark:text-gray-300">
+              <div className="text-app-muted dark:text-gray-300">
                 {steps[currentStep].description}
               </div>
             </div>
@@ -180,7 +180,7 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
               <button
                 onClick={handlePrevious}
                 className={`bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
-                  text-gray-700 dark:text-gray-300 px-4 py-2 rounded-full 
+                  text-app-subtle dark:text-gray-300 px-4 py-2 rounded-full 
                   ${currentStep === 0 ? 'invisible' : ''}`}
               >
                 Previous

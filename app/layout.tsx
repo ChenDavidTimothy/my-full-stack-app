@@ -3,7 +3,7 @@
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@/contexts/AuthContext';
-import TopBar from '../components/TopBar';
+import TopBar from '@/components/TopBar';
 import ProtectedRoute from '@/contexts/ProtectedRoute';
 import { Analytics } from "@vercel/analytics/react"
 import { ThemeProvider } from '@/contexts/ThemeContext';

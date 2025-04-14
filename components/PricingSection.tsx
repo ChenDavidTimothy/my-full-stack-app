@@ -83,7 +83,7 @@ export function PricingSection() {
           }`}
         >
           {tier.popular && (
-            <span className="absolute top-0 right-6 -translate-y-1/2 px-3 py-1 text-sm bg-primary text-white rounded-full">
+            <span className="absolute top-0 right-6 -translate-y-1/2 px-3 py-1 text-sm bg-primary text-color-text-inverse rounded-full">
               Popular
             </span>
           )}
@@ -107,7 +107,7 @@ export function PricingSection() {
             onClick={handleCTAClick}
             className={`mt-8 w-full py-3 px-4 rounded-lg text-center font-medium transition-colors ${
               selectedTier === tier.id
-                ? 'bg-primary text-white hover:bg-primary-dark'
+                ? 'btn-primary'
                 : 'bg-app-subtle text-app hover:bg-app-muted'
             }`}
           >

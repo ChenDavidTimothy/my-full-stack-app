@@ -53,7 +53,7 @@ export default function TopBar() {
         </Link>
 
         <div className="flex items-center gap-4">
-          {/* Add the theme toggle */}
+          {/* Theme toggle */}
           <ThemeToggle />
           
           {!user ? (
@@ -61,7 +61,7 @@ export default function TopBar() {
               <BuyMeCoffee />
               <Link
                 href="/login"
-                className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-full transition-colors shadow-subtle hover:shadow-hover"
+                className="px-4 py-2 text-sm font-medium btn-primary rounded-full shadow-subtle hover:shadow-hover"
               >
                 Sign in
               </Link>
@@ -75,7 +75,7 @@ export default function TopBar() {
               ) && (
                 <button
                   onClick={() => router.push('/profile')}
-                  className="hidden sm:block px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
+                  className="hidden sm:block px-4 py-2 btn-primary rounded-full text-sm font-medium shadow-subtle hover:shadow-hover"
                 >
                   View Subscription
                 </button>
@@ -87,7 +87,7 @@ export default function TopBar() {
               ) && pathname !== '/dashboard' && (
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="hidden sm:block px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
+                  className="hidden sm:block px-4 py-2 btn-primary rounded-full text-sm font-medium shadow-subtle hover:shadow-hover"
                 >
                   {isInTrial ? "Start Free Trial" : "Start Building"}
                 </button>

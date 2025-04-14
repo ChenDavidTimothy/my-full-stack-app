@@ -79,14 +79,14 @@ export function LoginForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email address"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-app placeholder-app-muted text-app bg-surface focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+            className="input-app w-full"
           />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-app placeholder-app-muted text-app bg-surface focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+            className="input-app w-full"
           />
         </div>
 
@@ -108,7 +108,7 @@ export function LoginForm({
         <button 
           type="submit" 
           disabled={isLoading}
-          className="w-full py-2.5 px-4 border border-transparent rounded-full shadow-xs text-white bg-primary hover:bg-primary-dark disabled:opacity-50 focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
+          className="w-full py-2.5 px-4 btn-primary rounded-full shadow-xs disabled:opacity-50 focus:outline-hidden focus:ring-2 focus:ring-color-primary focus:ring-offset-2 transition-all"
         >
           {isSignUp ? 'Sign up' : 'Sign in'} with Email
         </button>

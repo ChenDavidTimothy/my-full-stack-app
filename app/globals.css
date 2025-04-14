@@ -7,6 +7,7 @@
   --color-primary-lighter: #ddd6fe;
   --color-primary-light: #c4b5fd;
   --color-primary-dark: #8b5cf6;
+  --color-primary-darker: #7c3aed;
   
   /* Accent colors */
   --color-accent: #38bdf8;
@@ -21,10 +22,20 @@
   /* Success colors */
   --color-success: #22c55e;
   --color-success-light: #4ade80;
+  --color-success-dark: #16a34a;
   
   /* Warning colors */
   --color-warning: #f59e0b;
   --color-warning-light: #fbbf24;
+  --color-warning-dark: #d97706;
+  
+  /* Neutral colors */
+  --color-neutral: #64748b;
+  --color-neutral-light: #94a3b8;
+  --color-neutral-dark: #475569;
+  
+  /* Text colors for inverted backgrounds (e.g., buttons) */
+  --color-text-inverse: #ffffff;
   
   /* Shadows */
   --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -46,10 +57,19 @@
   /* Border colors */
   --border-base: #e2e8f0;
   --border-subtle: #f1f5f9;
+  --border-focus: #a78bfa;
   
   /* Surface/Card colors */
   --surface-base: #ffffff;
   --surface-subtle: #f8fafc;
+  
+  /* Form colors */
+  --input-bg: #ffffff;
+  --input-border: #e2e8f0;
+  --input-focus: #a78bfa;
+  
+  /* Add smooth transitions for theme switching */
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 /* Dark mode variables */
@@ -67,10 +87,19 @@
   /* Border colors */
   --border-base: #334155;
   --border-subtle: #1e293b;
+  --border-focus: #a78bfa;
   
   /* Surface/Card colors */
   --surface-base: #1e293b;
   --surface-subtle: #334155;
+  
+  /* Form colors */
+  --input-bg: #0f172a;
+  --input-border: #334155;
+  --input-focus: #a78bfa;
+  
+  /* Match transition duration from light mode */
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 /* Default border color fix for Tailwind v4 */
@@ -89,7 +118,7 @@
   }
 }
 
-/* Cursor pointer fix for buttons - recommended in the upgrade guide */
+/* Cursor pointer fix for buttons */
 @layer base {
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -97,7 +126,7 @@
   }
 }
 
-/* Create simplified utility classes for our theme variables */
+/* Background utilities */
 @utility bg-app {
   background-color: var(--bg-base);
 }
@@ -110,6 +139,7 @@
   background-color: var(--bg-muted);
 }
 
+/* Text utilities */
 @utility text-app {
   color: var(--text-base);
 }
@@ -122,6 +152,7 @@
   color: var(--text-subtle);
 }
 
+/* Border utilities */
 @utility border-app {
   border-color: var(--border-base);
 }
@@ -130,6 +161,11 @@
   border-color: var(--border-subtle);
 }
 
+@utility border-app-focus {
+  border-color: var(--border-focus);
+}
+
+/* Surface utilities */
 @utility bg-surface {
   background-color: var(--surface-base);
 }
@@ -138,17 +174,94 @@
   background-color: var(--surface-subtle);
 }
 
-/* Other existing utilities */
-@utility recipe-card {
-  @apply bg-surface rounded-lg shadow-xs border border-app-subtle transition-all duration-300 hover:shadow-md;
+/* Form utilities - Fixed to avoid using pseudo-classes in utility names */
+@utility input-app {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  border-width: 1px;
+  border-radius: 0.375rem;
+  color: var(--text-base);
+  padding: 0.5rem 0.75rem;
 }
 
-@utility cooking-button {
-  @apply bg-primary hover:bg-primary-dark text-white rounded-lg transition-all duration-300 transform hover:scale-102 active:scale-98;
+/* Define separate CSS rules for the focus state */
+.input-app:focus {
+  border-color: var(--input-focus);
+  outline: none;
+  ring: 2;
+  ring-color: var(--input-focus);
+  ring-opacity: 0.5;
 }
 
-@utility accent-button {
-  @apply bg-accent hover:bg-accent-dark text-white rounded-lg transition-all duration-300;
+/* Component utilities */
+@utility card {
+  background-color: var(--surface-base);
+  border-color: var(--border-base);
+  border-width: 1px;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-subtle);
+}
+
+@utility btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+/* Define separate CSS rules for hover states */
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+@utility btn-secondary {
+  background-color: var(--bg-muted);
+  color: var(--text-base);
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-subtle);
+}
+
+@utility btn-danger {
+  background-color: var(--color-danger);
+  color: var(--color-text-inverse);
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-danger:hover {
+  background-color: var(--color-danger-dark);
+}
+
+/* Status utilities */
+@utility status-success {
+  background-color: color-mix(in srgb, var(--color-success) 10%, transparent);
+  color: var(--color-success);
+  border-left-width: 4px;
+  border-left-color: var(--color-success);
+  border-radius: 0 0.375rem 0.375rem 0;
+  padding: 0.75rem 1rem;
+}
+
+@utility status-danger {
+  background-color: color-mix(in srgb, var(--color-danger) 10%, transparent);
+  color: var(--color-danger);
+  border-left-width: 4px;
+  border-left-color: var(--color-danger);
+  border-radius: 0 0.375rem 0.375rem 0;
+  padding: 0.75rem 1rem;
+}
+
+@utility status-warning {
+  background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
+  color: var(--color-warning);
+  border-left-width: 4px;
+  border-left-color: var(--color-warning);
+  border-radius: 0 0.375rem 0.375rem 0;
+  padding: 0.75rem 1rem;
 }
 
 /* Hide scrollbar styles */

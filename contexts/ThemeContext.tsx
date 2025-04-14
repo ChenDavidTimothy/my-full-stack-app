@@ -6,13 +6,14 @@ type Theme = 'light' | 'dark';
 type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
+  setTheme: (theme: Theme) => void;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Initialize with system preference, but we'll check localStorage
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setThemeState] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
   
   // Only run on client-side to avoid hydration mismatch
@@ -24,11 +25,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // If no stored preference, use system preference
     if (!storedTheme) {
       const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      setTheme(systemPreference);
+      setThemeState(systemPreference);
       return;
     }
     
-    setTheme(storedTheme);
+    setThemeState(storedTheme);
   }, []);
   
   // Update HTML element class when theme changes
@@ -48,11 +49,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme, mounted]);
   
   const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    setThemeState(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
   };
   
+  // Avoid rendering children until after hydration to prevent mismatch
+  if (!mounted) {
+    return null;
+  }
+  
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
