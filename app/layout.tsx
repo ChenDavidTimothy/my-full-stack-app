@@ -1,15 +1,14 @@
-'use client';
-
 import { Geist } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from '@/contexts/AuthContext';
-import TopBar from '@/components/TopBar';
-import ProtectedRoute from '@/contexts/ProtectedRoute';
-import { Analytics } from "@vercel/analytics/react"
-import { ThemeProvider } from '@/contexts/ThemeContext';
+import { ClientProviders } from '@/components/ClientProviders';
 
 const geist = Geist({ subsets: ['latin'] });
 
+/**
+ * Root layout is now a server component (no 'use client' directive)
+ * This allows Next.js to pre-render the basic HTML structure
+ * while delegating client-specific logic to ClientProviders
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,15 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geist.className} bg-background text-foreground`} suppressHydrationWarning={true}>
-        <Analytics mode="auto" />
-        <ThemeProvider>
-          <AuthProvider>   
-            <ProtectedRoute>
-              <TopBar />    
-              <main>{children}</main>
-            </ProtectedRoute>
-          </AuthProvider>
-        </ThemeProvider>
+        <ClientProviders>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );
