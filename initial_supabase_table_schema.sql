@@ -1,104 +1,132 @@
-create table public.users (
-  id uuid not null,
-  email text null,
-  created_at timestamp with time zone not null default timezone ('utc'::text, now()),
-  updated_at timestamp with time zone not null default timezone ('utc'::text, now()),
-  is_deleted boolean null default false,
-  deleted_at timestamp with time zone null,
-  reactivated_at timestamp with time zone null,
-  constraint users_pkey primary key (id),
-  constraint users_id_fkey foreign KEY (id) references auth.users (id)
-) TABLESPACE pg_default;
+-- 1. Drop existing tables, triggers, and functions (safe to re-run)
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+DROP FUNCTION IF EXISTS public.handle_new_user();
 
-create table public.user_preferences (
-  id uuid not null default extensions.uuid_generate_v4 (),
-  user_id uuid not null,
-  has_completed_onboarding boolean null default false,
-  created_at timestamp with time zone not null default timezone ('utc'::text, now()),
-  updated_at timestamp with time zone not null default timezone ('utc'::text, now()),
-  constraint user_preferences_pkey primary key (id),
-  constraint user_preferences_user_id_key unique (user_id),
-  constraint user_preferences_user_id_fkey foreign KEY (user_id) references auth.users (id) on delete CASCADE
-) TABLESPACE pg_default;
+DROP TABLE IF EXISTS public.subscriptions CASCADE;
+DROP TABLE IF EXISTS public.user_trials CASCADE;
+DROP TABLE IF EXISTS public.user_preferences CASCADE;
+DROP TABLE IF EXISTS public.users CASCADE;
 
+-- 2. Create tables
 
-create table public.user_trials (
-  id uuid not null default extensions.uuid_generate_v4 (),
-  user_id uuid not null,
-  trial_start_time timestamp with time zone null default now(),
-  trial_end_time timestamp with time zone not null,
-  is_trial_used boolean null default false,
-  constraint user_trials_pkey primary key (id),
-  constraint user_trials_user_id_key unique (user_id),
-  constraint user_trials_user_id_fkey foreign KEY (user_id) references auth.users (id)
-) TABLESPACE pg_default;
+-- users table
+CREATE TABLE public.users (
+  id uuid PRIMARY KEY REFERENCES auth.users (id),
+  email text,
+  created_at timestamptz NOT NULL DEFAULT timezone('utc', now()),
+  updated_at timestamptz NOT NULL DEFAULT timezone('utc', now()),
+  is_deleted boolean DEFAULT false,
+  deleted_at timestamptz,
+  reactivated_at timestamptz
+);
 
-create table public.subscriptions (
-  id uuid not null default gen_random_uuid (),
-  user_id uuid null,
-  stripe_customer_id text null,
-  stripe_subscription_id text null,
-  status text null,
-  price_id text null,
-  created_at timestamp with time zone null default now(),
-  cancel_at_period_end boolean null default false,
-  updated_at timestamp with time zone null default now(),
-  current_period_end timestamp with time zone null,
-  constraint subscriptions_pkey primary key (id),
-  constraint subscriptions_user_id_fkey foreign KEY (user_id) references users (id) on delete CASCADE
-) TABLESPACE pg_default;
+-- user_preferences table
+CREATE TABLE public.user_preferences (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL UNIQUE REFERENCES auth.users (id) ON DELETE CASCADE,
+  has_completed_onboarding boolean DEFAULT false,
+  created_at timestamptz NOT NULL DEFAULT timezone('utc', now()),
+  updated_at timestamptz NOT NULL DEFAULT timezone('utc', now())
+);
 
--- Enable RLS on all tables
+-- user_trials table
+CREATE TABLE public.user_trials (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL UNIQUE REFERENCES auth.users (id),
+  trial_start_time timestamptz DEFAULT timezone('utc', now()),
+  trial_end_time timestamptz NOT NULL,
+  is_trial_used boolean DEFAULT false
+);
+
+-- subscriptions table
+CREATE TABLE public.subscriptions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES public.users (id) ON DELETE CASCADE,
+  stripe_customer_id text,
+  stripe_subscription_id text,
+  status text,
+  price_id text,
+  created_at timestamptz DEFAULT timezone('utc', now()),
+  cancel_at_period_end boolean DEFAULT false,
+  updated_at timestamptz DEFAULT timezone('utc', now()),
+  current_period_end timestamptz
+);
+
+-- 3. Enable Row Level Security (RLS)
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_trials ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.subscriptions ENABLE ROW LEVEL SECURITY;
 
--- Users table policies
+-- 4. RLS Policies
+
+-- users table
 CREATE POLICY "Users can read their own data" ON public.users
   FOR SELECT USING (auth.uid() = id);
-
 CREATE POLICY "Users can update their own data" ON public.users
   FOR UPDATE USING (auth.uid() = id);
-
 CREATE POLICY "Service role full access to users" ON public.users
   FOR ALL TO service_role USING (true);
 
--- User preferences policies
+-- user_preferences table
 CREATE POLICY "Users can read their own preferences" ON public.user_preferences
   FOR SELECT USING (auth.uid() = user_id);
-
 CREATE POLICY "Users can update their own preferences" ON public.user_preferences
   FOR UPDATE USING (auth.uid() = user_id);
-
 CREATE POLICY "Users can insert their own preferences" ON public.user_preferences
   FOR INSERT WITH CHECK (auth.uid() = user_id);
-
 CREATE POLICY "Service role full access to preferences" ON public.user_preferences
   FOR ALL TO service_role USING (true);
 
--- User trials policies
+-- user_trials table
 CREATE POLICY "Users can read their own trials" ON public.user_trials
   FOR SELECT USING (auth.uid() = user_id);
-
 CREATE POLICY "Users can update their own trials" ON public.user_trials
   FOR UPDATE USING (auth.uid() = user_id);
-
 CREATE POLICY "Users can insert their own trials" ON public.user_trials
   FOR INSERT WITH CHECK (auth.uid() = user_id);
-
 CREATE POLICY "Service role full access to trials" ON public.user_trials
   FOR ALL TO service_role USING (true);
 
--- Subscriptions policies
+-- subscriptions table
 CREATE POLICY "Users can read their own subscriptions" ON public.subscriptions
   FOR SELECT USING (auth.uid() = user_id);
-
 CREATE POLICY "Users can update their own subscriptions" ON public.subscriptions
   FOR UPDATE USING (auth.uid() = user_id);
-
 CREATE POLICY "Users can insert their own subscriptions" ON public.subscriptions
   FOR INSERT WITH CHECK (auth.uid() = user_id);
-
 CREATE POLICY "Service role full access to subscriptions" ON public.subscriptions
   FOR ALL TO service_role USING (true);
+
+-- 5. Trigger function for new user signups
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  -- Insert into users table
+  INSERT INTO public.users (id, email)
+  VALUES (NEW.id, NEW.email);
+
+  -- Insert into user_preferences
+  INSERT INTO public.user_preferences (user_id)
+  VALUES (NEW.id);
+
+  -- Insert into user_trials (trial is 48 hours from now)
+  INSERT INTO public.user_trials (user_id, trial_end_time)
+  VALUES (NEW.id, (timezone('utc', now()) + INTERVAL '48 hours'));
+
+  RETURN NEW;
+EXCEPTION
+  WHEN OTHERS THEN
+    RAISE LOG 'Error creating user records: %', SQLERRM;
+    RETURN NEW;
+END;
+$$;
+
+-- 6. Attach trigger to auth.users
+CREATE TRIGGER on_auth_user_created
+AFTER INSERT ON auth.users
+FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
